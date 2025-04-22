@@ -1,0 +1,843 @@
+/* ==========================
+   General Styles
+   ========================== */
+   body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* ==========================
+     Navbar Styling
+     ========================== */
+  nav {
+    background-color: rgb(14, 45, 79) !important;
+    
+  }
+  
+  nav .brand-logo {
+    font-size: xx-large;
+    font-weight: bold;
+    
+  }
+  
+
+  /*misc*/
+  .aaa {
+    color: white;
+  }
+  
+  .block {
+    display: block;
+    width: 23%;
+    border: none;
+    -webkit-text-fill-color: white;
+    background-color: rgb(14, 45, 79);
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  /* ==========================
+     Buttons
+     ========================== */
+  .btn-primary {
+    display: block;
+    width: 23%;
+    border: none;
+    color: white;
+    background-color: rgb(14, 45, 79);
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .btn-primary:hover {
+    background-color: rgb(14, 45, 79);
+  }
+  
+  /* ==========================
+   Hero Section
+   ========================== */
+.hero {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: url('https://source.unsplash.com/1600x900/?books,library') center/cover;
+  color: rgb(14, 45, 79);
+  padding: 20px;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.hero p2 {
+  color: red;
+}
+
+.hero input {
+  width: 60%;
+  max-width: 400px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* ==========================
+   Featured Books Section
+   ========================== */
+   .featured-books {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f0f0f0; /* Alternate section background */
+  }
+  
+  .featured-books h3 {
+    font-size: 1.8rem;
+    color: rgb(14, 45, 79);
+    margin-bottom: 20px;
+  }
+  
+ /* ==========================
+     Book List
+     ========================== */
+.book-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px; /* Reduced gap between cards */
+}
+
+.book-card {
+  background: white;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 140px; /* Smaller width */
+  height: 230px; /* Smaller height */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Evenly space out content inside the card */
+}
+
+.book-card img {
+  width: 100%;
+  height: 100px; /* Smaller image height */
+  object-fit: contain; /* Ensures the image fits inside without cutting */
+  border-radius: 5px;
+}
+
+.book-card h4 {
+  font-size: 0.9rem; /* Smaller font size */
+  margin-top: 8px;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show ellipsis when the text is too long */
+}
+
+.book-card p {
+  font-size: 0.75rem; /* Even smaller font size for description */
+  color: #666;
+  flex-grow: 1;
+}
+
+    
+  
+  
+/* ==========================
+     Login & Registration Forms
+     ========================== */
+
+ /* Page Background */
+.page-auth-bg {
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Auth Container */
+.auth-container {
+  width: 90%;
+  max-width: 420px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid rgb(14, 45, 79);
+  text-align: center;
+}
+
+/* Auth Header */
+.auth-container h4 {
+  color: rgb(14, 45, 79);
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.auth-container h4::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: rgb(14, 45, 79);
+  margin: 10px auto 0 auto;
+  border-radius: 4px;
+}
+
+/* Input Group */
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-field label {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(14, 45, 79);
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.input-field input {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-field input:focus {
+  border-color: rgb(14, 45, 79);
+  box-shadow: 0 0 0 3px rgba(14, 45, 79, 0.15);
+  background-color: #fff;
+}
+
+.input-field input:hover {
+  background-color: #fefefe;
+  border-color: #bbb;
+}
+
+/* Auth Button */
+.btn-auth {
+  width: 100%;
+  padding: 14px;
+  background-color: rgb(14, 45, 79);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn-auth:hover {
+  background-color: rgb(10, 35, 62);
+  transform: translateY(-1px);
+}
+
+/* Messages & Links */
+.auth-message {
+  margin-top: 12px;
+  font-size: 14px;
+  color: red;
+}
+
+.auth-link {
+  margin-top: 20px;
+  display: block;
+  font-size: 14px;
+  color: rgb(14, 45, 79);
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+    
+
+  
+  /* ==========================
+     Mobile Responsive
+     ========================== */
+  @media (max-width: 768px) {
+    .hero h2 {
+      font-size: 1.5rem;
+    }
+  
+    .hero input {
+      width: 80%;
+    }
+  
+    .book-list {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .auth-container {
+      width: 90%;
+    }
+  }
+  
+
+/* Navbar Dropdown Styles */
+.nav .dropdown-trigger {
+  cursor: pointer;
+  position: relative;  /* Ensure position for proper dropdown alignment */
+}
+
+.nav .dropdown-content {
+  background-color: rgb(14, 45, 79);
+  border-radius: 5px;
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: none; /* Ensures dropdown is hidden by default */
+}
+
+.nav .dropdown-trigger:hover + .dropdown-content {
+  display: block;  /* Show the dropdown when hovered */
+  z-index: 999;  /* Ensure dropdown appears above other elements */
+}
+
+.nav .dropdown-content li a {
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: block;
+  text-align: left;
+}
+
+.nav .dropdown-content li a:hover {
+  background-color: rgb(14, 45, 79);
+}
+
+/* Enable dropdown on hover */
+ul.dropdown-content {
+  display: none;
+}
+
+.dropdown-trigger:hover + .dropdown-content {
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
+  transition: visibility 0s, opacity 0.3s linear;
+}
+
+
+
+/* ==========================
+   Messenger Layout (Facebook-style)
+   ========================== */
+
+   .messenger-container {
+    display: flex;
+    height: 80vh;
+    max-width: 1000px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+  
+  .messenger-sidebar {
+    width: 30%;
+    background-color: rgb(14, 45, 79);
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .messenger-sidebar h6 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  #recipientSelect.browser-default {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background-color: rgb(22, 60, 95);
+    border: none;
+    border-radius: 5px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'14'%20height%3D'10'%20viewBox%3D'0%200%2014%2010'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M1%201l6%206%206-6'%20stroke%3D'white'%20stroke-width%3D'2'%20fill%3D'none'%20fill-rule%3D'evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    cursor: pointer;
+  }
+  
+  #recipientSelect option {
+    color: #f0f0f0;
+  }
+  
+  /* Chat Area */
+  .messenger-chat-area {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .messages-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+  }
+  
+  /* Messages */
+  .message {
+    max-width: 60%;
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 15px;
+    word-wrap: break-word;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .message.sent {
+    align-self: flex-end;
+    background-color: rgb(14, 45, 79);
+    color: white;
+  }
+  
+  .message.received {
+    align-self: flex-start;
+    background-color: #f0f0f0;
+    color: #222;
+  }
+  
+  /* Input Area */
+  .messenger-input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .messenger-input-area input {
+    flex-grow: 1;
+    padding: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+  
+  .send-message-btn {
+    background-color: rgb(14, 45, 79);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .send-message-btn:hover {
+    background-color: rgb(10, 35, 60);
+  }
+  
+
+
+/*footer*/
+.footer {
+  padding: 10px 0;
+  margin-top: 50px;
+  font-size: 16px;
+  border-top: 2px solid rgb(14, 45, 79);
+}
+
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: #ccc;
+  margin: 0 8px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+/*browse books style*/
+
+.input-field input[type="text"] {
+  padding-left: 40px;
+  margin-top: 20px;
+}
+
+.input-field i.material-icons.prefix {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  color: #666;
+}
+
+
+/*    Publish/add books      */
+
+/* Page Background */
+.page-booklisting-bg {
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Form Wrapper */
+.booklisting-form-wrapper {
+  width: 90%;
+  max-width: 650px;
+  margin: 60px auto;
+  background-color: #ffffff;
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid rgb(14, 45, 79);
+}
+
+/* Header */
+.booklisting-header-title {
+  text-align: center;
+  color: rgb(14, 45, 79);
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.booklisting-header-title::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: rgb(14, 45, 79);
+  margin: 10px auto 0 auto;
+  border-radius: 4px;
+}
+
+/* Form Layout */
+.booklisting-form-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.booklisting-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.booklisting-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(14, 45, 79);
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+.booklisting-text-input,
+.booklisting-select-dropdown,
+.booklisting-textarea {
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  background-color: #fafafa;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.booklisting-text-input:focus,
+.booklisting-select-dropdown:focus,
+.booklisting-textarea:focus {
+  border-color: rgb(14, 45, 79);
+  box-shadow: 0 0 0 3px rgba(14, 45, 79, 0.15);
+  background-color: #fff;
+}
+
+/* Textarea specific */
+.booklisting-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Button */
+.booklisting-submit-button {
+  padding: 14px;
+  background-color: rgb(14, 45, 79);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.booklisting-submit-button:hover {
+  background-color: rgb(10, 35, 62);
+  transform: translateY(-1px);
+}
+
+/* Optional: subtle hover for inputs */
+.booklisting-text-input:hover,
+.booklisting-select-dropdown:hover,
+.booklisting-textarea:hover {
+  background-color: #fefefe;
+  border-color: #bbb;
+}
+.booklisting-header-icon {
+  display: block;
+  margin: 0 auto 10px auto;
+  width: 60px;
+  height: auto;
+  opacity: 0.85;
+}
+
+
+.booklisting-form-group {
+  border-left: 3px solid rgb(14, 45, 79);
+  padding-left: 10px;
+}
+
+/* === About Us Page Enhanced Styles === */
+.aboutus-body-container {
+  background: linear-gradient(to bottom, #f0f2f5, #e9edf1);
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.aboutus-main-content {
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 30px 60px;
+  background-color: #fbfcfd;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* === Header === */
+.aboutus-header-section {
+  text-align: center;
+  padding: 50px 30px 30px;
+  background: linear-gradient(to right, rgb(14, 45, 79), #1a568e);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  margin: -1px -30px 0; /* Stretch full width of the white box */
+}
+
+
+.aboutus-title {
+  color: #ffffff;
+  font-size: 36px;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.aboutus-subtitle {
+  font-size: 18px;
+  color: #d0d0d0;
+  margin-bottom: 0;
+}
+
+/* === Sections === */
+.aboutus-section-heading {
+  color: rgb(14, 45, 79);
+  font-size: 26px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  border-left: 5px solid rgb(14, 45, 79);
+  padding-left: 15px;
+}
+
+.aboutus-paragraph {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.aboutus-list {
+  list-style: none;
+  padding-left: 0;
+  color: #444;
+  margin-bottom: 30px;
+}
+
+.aboutus-list li {
+  font-size: 16px;
+  padding: 12px 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 5px solid rgb(14, 45, 79);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* === Team Section === */
+.aboutus-story-section,
+.aboutus-team-section {
+  background-color: #eff3f6;
+  padding: 50px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 40px;
+}
+
+.aboutus-mission-section {
+  background-color: #eff3f6;
+  padding: 50px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 40px;
+}
+
+.aboutus-team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.aboutus-team-member-card {
+  flex: 1 1 280px;
+  background: #f9f9f9;
+  border-left: 6px solid rgb(14, 45, 79);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aboutus-team-member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.aboutus-team-member-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: rgb(14, 45, 79);
+  margin-bottom: 8px;
+}
+
+.aboutus-team-member-role {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.aboutus-team-member-email {
+  font-size: 15px;
+  color: #666;
+  word-break: break-word;
+}
+
+.aboutus-section-divider {
+  height: 2px;
+  background-color: #dbe2ea;
+  width: 100%;
+  margin: 40px 0;
+  border-radius: 2px;
+}
+
+
+
+
+
+/* ==========================
+   Mobile Responsive for Messaging
+   ========================== */
+@media (max-width: 768px) {
+  .recipient-dropdown-btn {
+    width: 80%;
+  }
+
+  .messages-list {
+    padding: 10px;
+  }
+
+  .message {
+    max-width: 90%;
+  }
+
+  .send-message-btn {
+    width: 80%;
+  }
+}
+
+
+
+
+
+/* Mobile Menu Dropdown */
+@media (max-width: 768px) {
+  .dropdown-content {
+    background-color: rgb(14, 45, 79);
+    min-width: 100%; /* Makes the dropdown width fit on mobile */
+    overflow: hidden; /* Prevents horizontal scroll on mobile */
+  }
+
+  .dropdown-content li a {
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .dropdown-content li a:hover {
+    background-color: rgb(14, 45, 79);
+  }
+}
+

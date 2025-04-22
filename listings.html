@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Listings - Book Swap</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-booklisting-bg">
+  <div id="navbar-container"></div>
+
+  <div class="booklisting-form-wrapper">
+    <img src="img/book-swap.png" class="booklisting-header-icon" alt="book icon">
+    <h2 class="booklisting-header-title">Add Your Book to Listings</h2>
+    <form id="addBookForm" class="booklisting-form-structure">
+      <div class="booklisting-form-group">
+        <label for="bookTitle" class="booklisting-label">Book Title</label>
+        <input type="text" id="bookTitle" class="booklisting-text-input" required>
+      </div>
+
+      <div class="booklisting-form-group">
+        <label for="bookAuthor" class="booklisting-label">Author</label>
+        <input type="text" id="bookAuthor" class="booklisting-text-input" required>
+      </div>
+
+      <div class="booklisting-form-group">
+        <label for="bookDescription" class="booklisting-label">Description (Optional)</label>
+        <textarea id="bookDescription" class="booklisting-textarea"></textarea>
+      </div>
+
+      <div class="booklisting-form-group">
+        <label for="bookCondition" class="booklisting-label">Condition</label>
+        <select id="bookCondition" class="booklisting-select-dropdown" required>
+          <option value="Like New">Like New</option>
+          <option value="Good">Good</option>
+          <option value="Acceptable">Acceptable</option>
+          <option value="Bad">Bad</option>
+        </select>
+      </div>
+
+      <div class="booklisting-form-group">
+        <label for="bookSubject" class="booklisting-label">Subject</label>
+        <select id="bookSubject" class="booklisting-select-dropdown" required>
+          <option value="Business">Business</option>
+          <option value="Health">Health</option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Education">Education</option>
+          <option value="Liberal Arts">Liberal Arts</option>
+          <option value="Criminal Justice">Criminal Justice</option>
+          <option value="Others">Others</option>
+        </select>
+      </div>
+
+      <button type="submit" class="booklisting-submit-button">Add Book</button>
+    </form>
+  </div>
+
+  <div class="booklisting-info-box">
+    <h4><i class="material-icons left">info</i> </h4>
+    <ul>
+      <li>📚 Make sure to be clear and specific.</li>
+      <li>✅ Choose the right condition & subject.</li>
+    </ul>
+  </div>
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+
+  <script src="script.js"></script>
+  <script>
+    // Load Materialize CSS and JS dynamically
+    function loadMaterialize(callback) {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css';
+      document.head.appendChild(css);
+  
+      const js = document.createElement('script');
+      js.src = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js';
+      js.onload = () => {
+        // Materialize JS is ready, now init components
+        if (typeof callback === 'function') callback();
+      };
+      document.body.appendChild(js);
+    }
+  
+    async function loadNavbar() {
+      const navbarContainer = document.getElementById('navbar-container');
+      const response = await fetch('navbar.html');
+      const html = await response.text();
+      navbarContainer.innerHTML = html;
+  
+      // Now load Materialize and init components after it's fully loaded
+      loadMaterialize(() => {
+        M.AutoInit(); // optional
+        M.Sidenav.init(document.querySelectorAll(".sidenav"));
+        M.Dropdown.init(document.querySelectorAll(".dropdown-trigger"), {
+          hover: true,
+          alignment: 'right',
+          coverTrigger: false,
+        });
+        M.FormSelect.init(document.querySelectorAll("select"));
+      });
+    }
+  
+    loadNavbar();
+  </script>
+  
+  
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Wishlist - Book Swap</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navbar (Dynamically Loaded) -->
+  <div id="navbar-container"></div>
+
+  <div class="container">
+    <h3 class="center-align">My Wishlist</h3>
+
+    <ul class="collection" id="wishlist">
+      <!-- Wishlist items will be added dynamically -->
+    </ul>
+
+    <div class="input-field">
+      <input type="text" id="wishlistInput" placeholder="Add a book to your wishlist" />
+      <button class="btn blue" onclick="addToWishlist()">Add</button>
+    </div>
+  </div>
+
+
+        <!-- Footer -->
+      <div id="footer-placeholder"></div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+
+
+  
+</body>
+</html>

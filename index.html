@@ -1,0 +1,72 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pass The Pages - Home</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Materialize CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar Container (Loaded Dynamically) -->
+  <div id="navbar-container"></div>
+
+  <div style="height: 10px; background: linear-gradient(to top, rgb(14, 45, 79),#f0f0f0);"></div>
+
+  <a href="browse.html">
+    <img src="img/index_img.png" alt="browse" style="width:100%; height: auto; margin-top: 6px;" >
+  </a>
+  <div style="height: 10px; background: linear-gradient(to top,#f0f0f0, rgb(14, 45, 79));"></div>
+
+
+  <!-- Hero Section -->
+  <section class="hero center-align">
+    <h2>Recycle Books with Students Near You!</h2>
+    <input type="text" placeholder="Search for a book..." class="browser-default">
+  </section>
+
+  <!-- Image Section -->
+  <section class="image-section">
+    <a href="listings.html">
+    <img class="listings-link" src="img/grad.png" alt="Reading books" class="responsive-img" style="width: 100%; height: auto">
+  </a>
+  </section>
+
+  <!-- Featured Books Section -->
+  <section class="featured-books container">
+    <h3>Featured Books</h3>
+    <div class="book-list">
+      <!-- Books will be added dynamically here -->
+    </div>
+  </section>
+
+  <!-- Image Section -->
+  <section class="image-section">
+    <a href="listings.html">
+    <img class="listings-link" src="img/donation.png" style="width: 100%; height: auto" >
+    </a>
+  </section>
+
+  <!-- Hero Section (Call to Action) -->
+  <section class="hero center-align">
+    <h2>Recycle Books with Students Near You!</h2>
+    <p>Join our book swap community and start saving on books today.</p>
+    <p2> *ONLY FOR COLLEGE STUDENTS*</p2>
+    <button type="button" class="block"><a href="signup.html" class="aaa">Create an account</a></button>
+  </section>
+
+      <!-- Footer -->
+      <div id="footer-placeholder"></div>
+
+  <!-- Materialize JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- Load Navbar Dynamically (External Script) -->
+  <script src="script.js"></script>
+
+</body>
+</html>
