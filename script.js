@@ -539,25 +539,39 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     const currentUserId = localStorage.getItem("user_id"); // Assumes user_id is stored after login
     const authToken = localStorage.getItem("authToken"); // Ensure the token is read from localStorage
 
-    if (!bookContainer || !currentUserId || !authToken) return; // Check if user is logged in
+    if (!bookContainer || !currentUserId || !authToken) {
+        feedback.textContent = "❗ You are not logged in or missing some data.";
+        return;
+    }
 
     try {
+        // Fetch all books from the server
         const response = await fetch(`${apiUrl}/books`, {
             headers: {
                 "Authorization": `Bearer ${authToken}` // Pass token for authorization
             }
         });
 
+        // Check if the response was successful
+        if (!response.ok) {
+            throw new Error("Failed to fetch books");
+        }
+
         const books = await response.json();
+        console.log("Books loaded from the API:", books); // Log the response to inspect data
 
-        const myBooks = books.filter(book => book.owner_user_id == currentUserId); // Filter books by user_id
+        // Filter the books to only show those uploaded by the current user
+        const myBooks = books.filter(book => book.owner_user_id == currentUserId);
 
+        // Clear existing content
         bookContainer.innerHTML = "";
+        
         if (myBooks.length === 0) {
             feedback.textContent = "You haven't uploaded any books yet.";
             return;
         }
 
+        // Add the books to the page
         myBooks.forEach((book, index) => {
             const bookCard = document.createElement("div");
             bookCard.classList.add("mybooks-card-unique");
