@@ -293,6 +293,7 @@ async function loadMessages() {
 
 
 // Send message to the selected recipient
+// Send message to the selected recipient
 async function sendMessage() {
     const recipientId = document.getElementById("recipientSelect").value;
     const message = document.getElementById("messageInput").value.trim();
@@ -313,18 +314,24 @@ async function sendMessage() {
     });
     
     const data = await response.json();
-    if (response.ok) {
-        console.log("Message sent:", data.sentMessage);  // Debugging response
+    if (data.success) {
+        // Clear input and reload messages
         document.getElementById("messageInput").value = "";
         loadMessages();
     } else {
         alert("Error sending message");
-        console.error("Error response:", data);
     }
-    
 }
 
-// Set current user information and load recipient options
+// Add event listener to send message on "Enter"
+document.getElementById("messageInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevent form submission (if any)
+        sendMessage();
+    }
+});
+
+// Existing DOMContentLoaded logic for loading recipient options and messages
 document.addEventListener("DOMContentLoaded", async () => {
     const userResponse = await fetch(`${apiUrl}/profile`, {
         method: "GET",
@@ -341,6 +348,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Add event listener for recipient select change
     document.getElementById("recipientSelect").addEventListener("change", loadMessages);
 });
+
 
 
 
