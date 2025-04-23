@@ -433,15 +433,17 @@ ul.dropdown-content {
     width: fit-content;
     min-width: 150px;
     max-width: 60%;
-    padding: 2px 8px; /* reduced padding for smaller height */
-    border-radius: 20px;
-    font-size: 14px;
+    padding: 6px 12px;        /* smaller vertical and horizontal padding */
+    border-radius: 16px;      /* slightly tighter rounded corners */
+    font-size: 14px;          /* smaller text */
     word-wrap: break-word;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 8px;
+    margin-bottom: 6px;       /* tighter spacing between messages */
+    line-height: 1.2;         /* compact line spacing */
     display: flex;
     flex-direction: column;
   }
+  
   
   
   /* Sender's message (right side) */
