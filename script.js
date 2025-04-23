@@ -607,10 +607,6 @@ if (window.location.pathname.includes("mybooks.html")) {
  My profile
  ************************/
  async function loadProfile() {
-    if (!authToken) {
-      window.location.href = "login.html";
-      return;
-    }
   
     try {
       const response = await fetch(`${apiUrl}/profile`, {
