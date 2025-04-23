@@ -193,9 +193,8 @@ function removeListing(index) {
 }
 
 // Messages
-// Ensure you're logged in and have a valid token
 
-let currentUserId = null;
+
 
 
 // Fetch recipient options (users for chat)
