@@ -210,25 +210,35 @@ async function sendMessage() {
         const chatData = {
             sender_id: currentUser,
             receiver_id: currentRecipient,
-            content: message,
-            time: new Date().toLocaleTimeString()
+            content: message
         };
 
-        const response = await fetch(`${apiUrl}/messages`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-            },
-            body: JSON.stringify(chatData)
-        });
+        try {
+            const response = await fetch(`${apiUrl}/messages`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+                },
+                body: JSON.stringify(chatData)
+            });
 
-        if (response.ok) {
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Message send error:", errorData);
+                alert("Failed to send message.");
+                return;
+            }
+
             input.value = "";
-            loadMessages();  // Immediately load messages after sending one
+            loadMessages();
+        } catch (error) {
+            console.error("Send message failed:", error);
+            alert("Error sending message.");
         }
     }
 }
+
 
 // Event listener for sending message on "Enter"
 document.addEventListener("DOMContentLoaded", function () {
