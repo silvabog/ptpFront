@@ -495,8 +495,7 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     }
 
     if (title && author && subject && condition) {
-        const user_id = localStorage.getItem("user_id"); 
-        const newBook = { title, author, description, condition, subject, user_id};
+        const newBook = { title, author, description, condition, subject};
 
         try {
             const response = await fetch(`${apiUrl}/books`, {
