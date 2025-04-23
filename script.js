@@ -607,6 +607,10 @@ if (window.location.pathname.includes("mybooks.html")) {
  My profile
  ************************/
  async function loadProfile() {
+    // Remove forced login check
+    if (!authToken) {
+      console.warn("No auth token found, user may not be logged in.");
+    }
   
     try {
       const response = await fetch(`${apiUrl}/profile`, {
@@ -628,7 +632,7 @@ if (window.location.pathname.includes("mybooks.html")) {
       document.getElementById("email").textContent = data.email || "N/A";
     } catch (err) {
       console.error("Error loading profile:", err);
-      window.location.href = "login.html";
+      // You can handle this error in the UI, or keep it logged as shown.
     }
   }
   
@@ -642,5 +646,5 @@ if (window.location.pathname.includes("mybooks.html")) {
   
   document.addEventListener("DOMContentLoaded", function () {
     loadProfile();
-  
+
   });
