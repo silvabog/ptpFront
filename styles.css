@@ -807,56 +807,68 @@ ul.dropdown-content {
 /**************************
 My books page
 ***************************/
+
+.mybooks-wrapper-unique {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.mybooks-heading-unique {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
 .mybooks-list-container-unique {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Smaller cards */
-  gap: 10px;
+  display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px; /* Slightly tighter gap */
 }
 
 .mybooks-card-unique {
   background: white;
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 6px; /* Less padding for a smaller card */
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.08);
+  width: 120px; /* Smaller width */
+  height: 200px; /* Smaller height */
   text-align: center;
-  width: 140px;  /* Explicit small card width */
-  height: 230px; /* Consistent height */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.mybooks-card-unique:hover {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
 .mybooks-card-unique img {
   width: 100%;
-  height: 100px; /* Smaller image */
-  object-fit: contain; /* Prevent cutting off */
-  border-radius: 5px;
+  height: 80px; /* Smaller image */
+  object-fit: contain; /* Prevent cutting */
+  border-radius: 4px;
 }
 
-.mybooks-card-unique h5 {
-  font-size: 0.9rem;
-  color: var(--main-color);
-  margin: 8px 0 0;
+.mybooks-card-unique h4 {
+  font-size: 0.8rem; /* Smaller font */
+  margin-top: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .mybooks-card-unique p {
-  font-size: 0.75rem;
+  font-size: 0.7rem; /* Smaller text */
   color: #666;
-  margin: 4px 0 0;
+  margin-top: 4px;
   flex-grow: 1;
 }
 
-
+.mybooks-feedback-unique {
+  text-align: center;
+  margin-top: 2rem;
+  color: #c0392b;
+  font-weight: bold;
+}
 
 
 
