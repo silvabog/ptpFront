@@ -193,64 +193,50 @@ function removeListing(index) {
 }
 
 // Messages
-const currentUser = localStorage.getItem("currentUser") || "you";
-const urlParams = new URLSearchParams(window.location.search);
-let currentRecipient = urlParams.get("user") || "";
-
-// Polling interval in milliseconds (e.g., 5000ms = 5 seconds)
+// Messages
+let currentUser = null;
+let currentRecipient = null;
 const pollingInterval = 5000;
 
-// Function to send messages
-async function sendMessage() {
-    const input = document.getElementById("messageInput");
-    if (!input) return;
+document.addEventListener("DOMContentLoaded", () => {
+    const storedUser = localStorage.getItem("currentUser");
+    const authToken = localStorage.getItem("authToken");
 
-    const message = input.value.trim();
-    if (message && currentRecipient) {
-        const chatData = {
-            receiver_user_id: currentRecipient,
-            message: message
-        };
-
-        try {
-            const response = await fetch(`${apiUrl}/messages`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-                },
-                body: JSON.stringify(chatData)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Message send error:", errorData);
-                alert("Failed to send message.");
-                return;
+    // Get user ID of the current user from /users
+    if (storedUser && authToken) {
+        fetch(`${apiUrl}/users`, {
+            headers: {
+                "Authorization": `Bearer ${authToken}`
+            }
+        })
+        .then(res => res.json())
+        .then(users => {
+            const user = users.find(u => u.username === storedUser || u.email === storedUser);
+            if (user) {
+                currentUser = user.user_id;
             }
 
-            input.value = "";
-            loadMessages(); // Refresh message list after sending
-        } catch (error) {
-            console.error("Send message failed:", error);
-            alert("Error sending message.");
-        }
-    }
-}
+            // Load recipient from URL if present
+            const urlParams = new URLSearchParams(window.location.search);
+            currentRecipient = urlParams.get("user") || null;
 
-// Event listener for sending message on "Enter"
-document.addEventListener("DOMContentLoaded", function () {
+            loadRecipientOptions();
+            if (currentRecipient) loadMessages();
+        });
+    }
+
+    // Send message on Enter
     const messageInput = document.getElementById("messageInput");
     if (messageInput) {
         messageInput.addEventListener("keydown", function (event) {
             if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault(); // prevent newline
+                event.preventDefault();
                 sendMessage();
             }
         });
     }
 
-    // Start polling for new messages
+    // Polling
     setInterval(() => {
         if (currentRecipient) {
             loadMessages();
@@ -258,78 +244,112 @@ document.addEventListener("DOMContentLoaded", function () {
     }, pollingInterval);
 });
 
-// Function to load messages
-async function loadMessages() {
-    const chatBox = document.getElementById("chatBox");
-    if (!chatBox || !currentRecipient) return;
+async function sendMessage() {
+    const input = document.getElementById("messageInput");
+    if (!input || !currentRecipient) return;
 
-    const response = await fetch(`${apiUrl}/messages?with=${currentRecipient}`, {
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+    const message = input.value.trim();
+    if (!message) return;
+
+    try {
+        const response = await fetch(`${apiUrl}/messages`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            },
+            body: JSON.stringify({
+                receiver_user_id: parseInt(currentRecipient),
+                message: message
+            })
+        });
+
+        if (!response.ok) {
+            console.error("Failed to send message");
+            return;
         }
-    });
 
-    if (!response.ok) {
-        console.error('Error loading messages.');
-        return;
+        input.value = "";
+        loadMessages();
+    } catch (error) {
+        console.error("Error sending message:", error);
     }
-
-    const messages = await response.json();
-    chatBox.innerHTML = "";
-    messages.forEach(msg => {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = msg.sender_user_id === parseInt(currentUser) 
-            ? "right-align blue-text" 
-            : "left-align green-text";
-        msgDiv.innerHTML = `<strong>${msg.sender_user_id === parseInt(currentUser) ? 'You' : 'User'}:</strong> ${msg.message} <small class="grey-text">(${new Date(msg.sent_at).toLocaleString()})</small>`;
-        chatBox.appendChild(msgDiv);
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Function to load recipient options (user select dropdown)
+async function loadMessages() {
+    const chatBox = document.getElementById("chatBox");
+    if (!chatBox || !currentRecipient || !currentUser) return;
+
+    try {
+        const response = await fetch(`${apiUrl}/messages?with=${currentRecipient}`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            }
+        });
+
+        if (!response.ok) {
+            console.error("Error fetching messages");
+            return;
+        }
+
+        const messages = await response.json();
+        chatBox.innerHTML = "";
+
+        messages.forEach(msg => {
+            const msgDiv = document.createElement("div");
+            const isSender = msg.sender_user_id === currentUser;
+            msgDiv.className = isSender ? "right-align blue-text" : "left-align green-text";
+            msgDiv.innerHTML = `<strong>${isSender ? "You" : "Them"}:</strong> ${msg.message} <small class="grey-text">(${new Date(msg.sent_at).toLocaleString()})</small>`;
+            chatBox.appendChild(msgDiv);
+        });
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    } catch (error) {
+        console.error("Error loading messages:", error);
+    }
+}
+
 async function loadRecipientOptions() {
     const select = document.getElementById("recipientSelect");
     if (!select || !localStorage.getItem("authToken")) return;
 
-    const response = await fetch(`${apiUrl}/users`, {
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-        }
-    });
+    try {
+        const response = await fetch(`${apiUrl}/users`, {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+            }
+        });
 
-    if (!response.ok) return;
+        if (!response.ok) return;
 
-    const users = await response.json();
-    select.innerHTML = `<option value="" disabled selected>Select a user</option>`;
+        const users = await response.json();
+        select.innerHTML = `<option value="" disabled selected>Select a user</option>`;
 
-    users.forEach(user => {
-        if (user.username !== currentUser) {
-            const opt = document.createElement("option");
-            opt.value = user.user_id;
-            opt.textContent = user.username;
-            select.appendChild(opt);
-        }
-    });
+        users.forEach(user => {
+            if (user.user_id !== currentUser) {
+                const opt = document.createElement("option");
+                opt.value = user.user_id;
+                opt.textContent = user.username;
+                select.appendChild(opt);
+            }
+        });
 
-    M.FormSelect.init(select);
-
-    select.addEventListener("change", function () {
-        currentRecipient = this.value;
-        loadMessages(); // Load messages when recipient changes
-    });
-
-    // Preselect from URL or previous choice
-    if (currentRecipient) {
-        select.value = currentRecipient;
         M.FormSelect.init(select);
-        loadMessages();
+
+        select.addEventListener("change", function () {
+            currentRecipient = this.value;
+            loadMessages();
+        });
+
+        if (currentRecipient) {
+            select.value = currentRecipient;
+            M.FormSelect.init(select);
+            loadMessages();
+        }
+    } catch (error) {
+        console.error("Error loading recipient options:", error);
     }
 }
-
-// Initialize the recipient options when the page loads
-loadRecipientOptions();
 
 
 
