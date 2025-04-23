@@ -2,6 +2,7 @@ const apiUrl = "https://ptpback.onrender.com";
 
 let authToken = localStorage.getItem("authToken");
 
+let currentUserId = null;
 
 
 // Login User
