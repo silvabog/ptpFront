@@ -3,16 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Uploaded Books</title>
+  <title>Messages - Book Swap</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    .chat-box {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
+  <!-- Navbar (Dynamically Loaded) -->
+  <div id="navbar-container"></div>
+
+
   <div class="mybooks-wrapper-unique">
     <h2 class="mybooks-heading-unique">📚 My Uploaded Books</h2>
     <div class="mybooks-list-container-unique"></div>
     <p class="mybooks-feedback-unique"></p>
   </div>
 
+                <!-- Footer -->
+      <div id="footer-placeholder"></div>
+
+          <!-- Materialize JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- Custom JavaScript -->
   <script src="script.js"></script>
-</body>
+    </body>
 </html>
