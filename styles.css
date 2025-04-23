@@ -805,67 +805,65 @@ ul.dropdown-content {
 }
 
 /**************************
-My Books Page Style
+My books page
 ***************************/
 .mybooks-wrapper-unique {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
+  display: flex;
+  gap: 2rem;
+  padding: 4rem 2rem 2rem;
 }
 
-.mybooks-heading-unique {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
+.mybooks-sidebar-unique {
+  width: 250px;
+  background: white;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.mybooks-sidebar-unique h6 {
+  font-weight: bold;
+  color: var(--main-color);
+  margin-bottom: 1.2rem;
 }
 
 .mybooks-list-container-unique {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px; /* Match Book List gap */
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 1.5rem;
 }
 
 .mybooks-card-unique {
   background: white;
-  padding: 8px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 140px; /* Same as Book List */
-  height: 230px;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: all 0.2s ease-in-out;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+}
+
+.mybooks-card-unique:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
 .mybooks-card-unique img {
-  width: 100%;
-  height: 100px;
-  object-fit: contain;
-  border-radius: 5px;
+  max-width: 100%;
+  height: 160px;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
 }
 
-.mybooks-card-unique h4 {
-  font-size: 0.9rem;
-  margin-top: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mybooks-card-unique h5 {
+  font-size: 1.2rem;
+  color: var(--main-color);
+  margin: 0.5rem 0 0.2rem;
 }
 
 .mybooks-card-unique p {
-  font-size: 0.75rem;
-  color: #666;
-  flex-grow: 1;
-}
-
-.mybooks-feedback-unique {
-  text-align: center;
-  margin-top: 2rem;
-  color: #c0392b;
-  font-weight: bold;
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.2rem 0;
 }
 
 
