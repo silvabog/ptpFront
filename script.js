@@ -526,3 +526,55 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
         feedback.textContent = "❗ Please fill in all required fields.";
     }
 });
+
+
+/************************
+ MY BOOKS
+ ************************/
+
+ async function loadMyBooks() {
+    const bookContainer = document.querySelector(".mybooks-list-container-unique");
+    const feedback = document.querySelector(".mybooks-feedback-unique");
+    const currentUserId = localStorage.getItem("user_id"); // Assumes user_id is stored after login
+    if (!bookContainer || !currentUserId) return;
+  
+    try {
+      const response = await fetch(`${apiUrl}/books`, {
+        headers: {
+          "Authorization": `Bearer ${authToken}`
+        }
+      });
+      const books = await response.json();
+  
+      const myBooks = books.filter(book => book.owner_user_id == currentUserId);
+  
+      bookContainer.innerHTML = "";
+      if (myBooks.length === 0) {
+        feedback.textContent = "You haven't uploaded any books yet.";
+        return;
+      }
+  
+      myBooks.forEach((book, index) => {
+        const bookCard = document.createElement("div");
+        bookCard.classList.add("mybooks-card-unique");
+        bookCard.innerHTML = `
+          <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
+          <h4>${book.title}</h4>
+          <p><strong>Author:</strong> ${book.author}</p>
+          <p><strong>Condition:</strong> ${book.condition}</p>
+          <p><strong>Subject:</strong> ${book.subject}</p>
+          ${book.description ? `<p><strong>Description:</strong> ${book.description}</p>` : ""}
+        `;
+        bookContainer.appendChild(bookCard);
+      });
+  
+    } catch (error) {
+      console.error("Failed to load your books:", error);
+      feedback.textContent = "❗ Error loading your uploaded books.";
+    }
+  }
+  
+  if (window.location.pathname.includes("mybooks.html")) {
+    loadMyBooks();
+  }
+  
