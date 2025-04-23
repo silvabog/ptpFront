@@ -275,13 +275,15 @@ async function sendMessage() {
     });
     
     const data = await response.json();
-    if (data.success) {
-        // Clear input and reload messages
+    if (response.ok) {
+        console.log("Message sent:", data.sentMessage);  // Debugging response
         document.getElementById("messageInput").value = "";
         loadMessages();
     } else {
         alert("Error sending message");
+        console.error("Error response:", data);
     }
+    
 }
 
 // Set current user information and load recipient options
