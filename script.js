@@ -591,3 +591,8 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
         feedback.textContent = "❗ Error loading your uploaded books.";
     }
 }
+
+if (window.location.pathname.includes("mybooks.html")) {
+    console.log("mybooks.html detected – loading books...");
+    loadMyBooks();
+}
