@@ -16,9 +16,13 @@ document.getElementById("loginForm")?.addEventListener("submit", async (event) =
     });
 
     const data = await response.json();
+    console.log("Login response data:", data);
+
     if (data.token) {
         authToken = data.token;
         localStorage.setItem("authToken", authToken);
+        localStorage.setItem("user_id", "4"); // or whatever ID is yours from the database
+
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("currentUser", data.username || email); // store username or email
         localStorage.setItem("user_id", data.user_id); 
