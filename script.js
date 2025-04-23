@@ -563,10 +563,8 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
         }
 
         const books = await response.json();
-        console.log("Books loaded from the API:", books); // Log the response to inspect data
 
         console.log("Current user ID:", currentUserId);
-console.log("Sample book object:", books[0]);
 
         // Filter the books to only show those uploaded by the current user
         const myBooks = books.filter(book => book.owner_user_id == currentUserId);
@@ -601,6 +599,5 @@ console.log("Sample book object:", books[0]);
 }
 
 if (window.location.pathname.includes("mybooks.html")) {
-    console.log("mybooks.html detected – loading books...");
     loadMyBooks();
 }
