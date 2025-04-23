@@ -208,9 +208,8 @@ async function sendMessage() {
     const message = input.value.trim();
     if (message && currentRecipient) {
         const chatData = {
-            sender_id: currentUser,
-            receiver_id: currentRecipient,
-            content: message
+            receiver_user_id: currentRecipient,
+            message: message
         };
 
         try {
@@ -231,14 +230,13 @@ async function sendMessage() {
             }
 
             input.value = "";
-            loadMessages();
+            loadMessages(); // Refresh message list after sending
         } catch (error) {
             console.error("Send message failed:", error);
             alert("Error sending message.");
         }
     }
 }
-
 
 // Event listener for sending message on "Enter"
 document.addEventListener("DOMContentLoaded", function () {
@@ -265,20 +263,25 @@ async function loadMessages() {
     const chatBox = document.getElementById("chatBox");
     if (!chatBox || !currentRecipient) return;
 
-    const response = await fetch(`${apiUrl}/messages?sender=${currentUser}&recipient=${currentRecipient}`, {
+    const response = await fetch(`${apiUrl}/messages?with=${currentRecipient}`, {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
         }
     });
 
-    if (!response.ok) return;
+    if (!response.ok) {
+        console.error('Error loading messages.');
+        return;
+    }
 
     const messages = await response.json();
     chatBox.innerHTML = "";
     messages.forEach(msg => {
         const msgDiv = document.createElement("div");
-        msgDiv.className = msg.sender === currentUser ? "right-align blue-text" : "left-align green-text";
-        msgDiv.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small class="grey-text">(${msg.time})</small>`;
+        msgDiv.className = msg.sender_user_id === parseInt(currentUser) 
+            ? "right-align blue-text" 
+            : "left-align green-text";
+        msgDiv.innerHTML = `<strong>${msg.sender_user_id === parseInt(currentUser) ? 'You' : 'User'}:</strong> ${msg.message} <small class="grey-text">(${new Date(msg.sent_at).toLocaleString()})</small>`;
         chatBox.appendChild(msgDiv);
     });
 
@@ -304,7 +307,7 @@ async function loadRecipientOptions() {
     users.forEach(user => {
         if (user.username !== currentUser) {
             const opt = document.createElement("option");
-            opt.value = user.username;
+            opt.value = user.user_id;
             opt.textContent = user.username;
             select.appendChild(opt);
         }
@@ -314,16 +317,20 @@ async function loadRecipientOptions() {
 
     select.addEventListener("change", function () {
         currentRecipient = this.value;
-        loadMessages();
+        loadMessages(); // Load messages when recipient changes
     });
 
-    // Preselect from URL
+    // Preselect from URL or previous choice
     if (currentRecipient) {
         select.value = currentRecipient;
         M.FormSelect.init(select);
         loadMessages();
     }
 }
+
+// Initialize the recipient options when the page loads
+loadRecipientOptions();
+
 
 
 
