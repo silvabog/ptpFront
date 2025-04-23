@@ -227,12 +227,13 @@ async function loadRecipientOptions() {
 }
 
 // Load previous messages for selected recipient
+// Load previous messages for selected recipient
 async function loadMessages() {
     const recipientId = document.getElementById("recipientSelect").value;
 
     if (!recipientId) return;
 
-    const response = await fetch(`${apiUrl}/messages?other_user_id=${recipientId}`, {  // Changed to `other_user_id`
+    const response = await fetch(`${apiUrl}/messages?other_user_id=${recipientId}`, {
         method: "GET",
         headers: {
             "Authorization": `Bearer ${authToken}`,
@@ -247,7 +248,7 @@ async function loadMessages() {
         messages.forEach(msg => {
             const messageDiv = document.createElement("div");
             messageDiv.classList.add("message");
-            messageDiv.innerHTML = `<strong>${msg.sender_username}:</strong> ${msg.message}`;
+            messageDiv.innerHTML = `<strong>${msg.sender_username}:</strong> ${msg.message}`;  // Display sender's username
             chatBox.appendChild(messageDiv);
         });
     } else {
@@ -260,6 +261,7 @@ async function loadMessages() {
     // Scroll to the bottom of the chat
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 
 
 // Send message to the selected recipient
