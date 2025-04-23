@@ -513,9 +513,7 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     }
 
     if (title && author && subject && condition) {
-        const userId = localStorage.getItem("userId"); // assuming it's stored after login
-const newBook = { title, author, description, condition, subject, owner_user_id: userId };
-
+        const newBook = { title, author, description, condition, subject };
 
         try {
             const response = await fetch(`${apiUrl}/books`, {
