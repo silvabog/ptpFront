@@ -606,25 +606,45 @@ if (window.location.pathname.includes("mybooks.html")) {
 /************************
  My profile
  ************************/
-
- document.addEventListener("DOMContentLoaded", function() {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-    if (!isLoggedIn) {
-        window.location.href = "login.html";
-        return;
+ async function loadProfile() {
+    if (!authToken) {
+      window.location.href = "login.html";
+      return;
     }
-
-    // Retrieve user details from localStorage
-    const currentUser = localStorage.getItem("currentUser");
-    const user_id = localStorage.getItem("user_id");
-    const firstName = localStorage.getItem("first_name");
-    const lastName = localStorage.getItem("last_name");
-    const email = localStorage.getItem("email");
-
-    // Display user details
-    document.getElementById("firstName").textContent = firstName;
-    document.getElementById("lastName").textContent = lastName;
-    document.getElementById("email").textContent = email;
-    document.getElementById("username").textContent = currentUser;
-});
+  
+    try {
+      const response = await fetch(`${apiUrl}/profile`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${authToken}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Unauthorized");
+      }
+  
+      const data = await response.json();
+  
+      document.getElementById("firstName").textContent = data.first_name || "N/A";
+      document.getElementById("lastName").textContent = data.last_name || "N/A";
+      document.getElementById("username").textContent = data.username || "N/A";
+      document.getElementById("email").textContent = data.email || "N/A";
+    } catch (err) {
+      console.error("Error loading profile:", err);
+      window.location.href = "login.html";
+    }
+  }
+  
+  function logout() {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("user_id");
+    window.location.href = "index.html";
+  }
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    loadProfile();
+  
+  });

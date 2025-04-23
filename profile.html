@@ -6,6 +6,16 @@
   <title>User Profile</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .profile-card {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <!-- Navbar (Dynamically Loaded) -->
@@ -13,36 +23,24 @@
 
 
 
-    <!-- Profile Content -->
-    <div class="container">
-        <h2>User Profile</h2>
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Personal Information</span>
-                        <p><strong>First Name:</strong> <span id="firstName"></span></p>
-                        <p><strong>Last Name:</strong> <span id="lastName"></span></p>
-                        <p><strong>Email:</strong> <span id="email"></span></p>
-                        <p><strong>Username:</strong> <span id="username"></span></p>
-                    </div>
-                    <div class="card-action">
-                        <button id="logoutButton" class="btn red">Logout</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="card profile-card center-align">
+      <h5>User Profile</h5>
+      <div id="profileInfo">
+        <p><strong>First Name:</strong> <span id="firstName">Loading...</span></p>
+        <p><strong>Last Name:</strong> <span id="lastName">Loading...</span></p>
+        <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+        <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+      </div>
+      <br />
+      <a class="btn red" onclick="logout()">Logout</a>
     </div>
+  </div>
 
-
-      <!-- Footer -->
-      <div id="footer-placeholder"></div>
-
-      <!-- Materialize JS -->
+  <div id="footer-placeholder"></div>
+  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-  <!-- Custom JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
