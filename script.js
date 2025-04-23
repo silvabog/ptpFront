@@ -197,6 +197,10 @@ const currentUser = localStorage.getItem("currentUser") || "you";
 const urlParams = new URLSearchParams(window.location.search);
 let currentRecipient = urlParams.get("user") || "";
 
+// Polling interval in milliseconds (e.g., 5000ms = 5 seconds)
+const pollingInterval = 5000;
+
+// Function to send messages
 async function sendMessage() {
     const input = document.getElementById("messageInput");
     if (!input) return;
@@ -207,28 +211,26 @@ async function sendMessage() {
             sender: currentUser,
             recipient: currentRecipient,
             text: message,
-            time: new Date().toLocaleTimeString(),
+            time: new Date().toLocaleTimeString()
         };
 
-        // Send message to the backend
         const response = await fetch(`${apiUrl}/messages`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("authToken")}`
             },
-            body: JSON.stringify(chatData),
+            body: JSON.stringify(chatData)
         });
 
         if (response.ok) {
             input.value = "";
-            loadMessages(); // Refresh messages
-        } else {
-            console.error("Failed to send message.");
+            loadMessages();  // Immediately load messages after sending one
         }
     }
 }
 
+// Event listener for sending message on "Enter"
 document.addEventListener("DOMContentLoaded", function () {
     const messageInput = document.getElementById("messageInput");
     if (messageInput) {
@@ -239,36 +241,41 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
+    // Start polling for new messages
+    setInterval(() => {
+        if (currentRecipient) {
+            loadMessages();
+        }
+    }, pollingInterval);
 });
 
+// Function to load messages
 async function loadMessages() {
     const chatBox = document.getElementById("chatBox");
     if (!chatBox || !currentRecipient) return;
 
-    // Fetch messages from the backend
     const response = await fetch(`${apiUrl}/messages?sender=${currentUser}&recipient=${currentRecipient}`, {
         headers: {
             "Authorization": `Bearer ${localStorage.getItem("authToken")}`
         }
     });
 
-    if (response.ok) {
-        const messages = await response.json();
+    if (!response.ok) return;
 
-        chatBox.innerHTML = "";
-        messages.forEach(msg => {
-            const msgDiv = document.createElement("div");
-            msgDiv.className = msg.sender === currentUser ? "right-align blue-text" : "left-align green-text";
-            msgDiv.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small class="grey-text">(${msg.time})</small>`;
-            chatBox.appendChild(msgDiv);
-        });
+    const messages = await response.json();
+    chatBox.innerHTML = "";
+    messages.forEach(msg => {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = msg.sender === currentUser ? "right-align blue-text" : "left-align green-text";
+        msgDiv.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small class="grey-text">(${msg.time})</small>`;
+        chatBox.appendChild(msgDiv);
+    });
 
-        chatBox.scrollTop = chatBox.scrollHeight;
-    } else {
-        console.error("Failed to load messages.");
-    }
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// Function to load recipient options (user select dropdown)
 async function loadRecipientOptions() {
     const select = document.getElementById("recipientSelect");
     if (!select || !localStorage.getItem("authToken")) return;
