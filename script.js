@@ -1,5 +1,6 @@
 const apiUrl = "https://ptpback.onrender.com"; 
-let authToken = "";
+authToken = localStorage.getItem("authToken");
+
 let currentUserId = null;
 
 
@@ -223,6 +224,8 @@ async function loadRecipientOptions() {
     } else {
         recipientSelect.innerHTML = "<option>No users available</option>";
     }
+
+    console.log("Users API response:", data);
 }
 
 // Load previous messages for selected recipient
