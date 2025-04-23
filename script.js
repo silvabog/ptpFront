@@ -21,17 +21,18 @@ document.getElementById("loginForm")?.addEventListener("submit", async (event) =
     if (data.token) {
         authToken = data.token;
         localStorage.setItem("authToken", authToken);
-        localStorage.setItem("user_id", "4"); // or whatever ID is yours from the database
-
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("currentUser", data.username || email); // store username or email
+    
+        // ✅ Only store the real user_id from the backend
         localStorage.setItem("user_id", data.user_id); 
+    
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("currentUser", data.username || email); 
         document.getElementById("loginMessage").innerText = "Login Successful!";
-
+    
         setTimeout(() => {
             window.location.href = "index.html";
         }, 500);
-    } else {
+    }else {
         document.getElementById("loginMessage").innerText = data.message || "Login failed";
     }
 });
