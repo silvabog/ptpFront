@@ -207,6 +207,8 @@ async function loadRecipientOptions() {
     });
     const data = await response.json();
     const recipientSelect = document.getElementById("recipientSelect");
+
+    recipientSelect.innerHTML = ""; // Clear old options to prevent duplicates
     
     if (data && data.length) {
         // Populate the recipient dropdown with users
@@ -226,7 +228,8 @@ async function loadRecipientOptions() {
     }
 }
 
-// Load previous messages for selected recipient
+
+
 // Load previous messages for selected recipient
 async function loadMessages() {
     const recipientId = document.getElementById("recipientSelect").value;
@@ -326,7 +329,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentUserId = userData.user_id;
     
     // Load recipient options (users) and messages
-   
+    loadRecipientOptions();
     
     // Add event listener for recipient select change
     document.getElementById("recipientSelect").addEventListener("change", loadMessages);
