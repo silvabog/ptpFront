@@ -485,6 +485,7 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     const condition = document.getElementById("bookCondition").value;
     const subject = document.getElementById("bookSubject").value;
 
+
     // Create message element if it doesn't exist
     let feedback = document.querySelector(".booklisting-feedback-message-unique");
     if (!feedback) {
@@ -494,6 +495,7 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     }
 
     if (title && author && subject && condition) {
+        const user_id = localStorage.getItem("user_id"); 
         const newBook = { title, author, description, condition, subject, user_id};
 
         try {
