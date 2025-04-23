@@ -351,6 +351,104 @@ async function loadRecipientOptions() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const recipientSelect = document.getElementById("recipientSelect");
+    const messageInput = document.getElementById("messageInput");
+    const chatBox = document.getElementById("chatBox");
+
+    // Fetch users and populate the recipient select
+    fetch('/users')
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                const option = document.createElement("option");
+                option.value = user.user_id;
+                option.textContent = user.username;
+                recipientSelect.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching users:', error));
+
+    // Function to fetch messages
+    function fetchMessages() {
+        const recipientUserId = recipientSelect.value;
+        const senderUserId = localStorage.getItem("currentUser");
+
+        if (!recipientUserId || !senderUserId) {
+            return; // If no user or recipient is selected, exit
+        }
+
+        fetch(`/messages?sender_user_id=${senderUserId}&receiver_user_id=${recipientUserId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched messages:', data);  // Log the fetched messages
+                displayMessages(data);
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
+
+    // Function to display messages in the chat box
+    function displayMessages(messages) {
+        chatBox.innerHTML = ""; // Clear the chat box first
+
+        messages.forEach(message => {
+            const messageElement = document.createElement("div");
+            messageElement.textContent = message.message;
+            chatBox.appendChild(messageElement);
+        });
+
+        // Scroll to the bottom of the chat box
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Send a new message
+    function sendMessage() {
+        const messageText = messageInput.value;
+        const recipientUserId = recipientSelect.value;
+
+        if (!messageText || !recipientUserId) {
+            return;  // Exit if no message or recipient is selected
+        }
+
+        const senderUserId = localStorage.getItem("currentUser");  // Assuming current user ID is stored in localStorage
+
+        // Log the message data to be sent
+        console.log('Sending message:', {
+            sender_user_id: senderUserId,
+            receiver_user_id: recipientUserId,
+            message: messageText
+        });
+
+        fetch('/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sender_user_id: senderUserId,
+                receiver_user_id: recipientUserId,
+                message: messageText
+            })
+        })
+        .then(response => response.json())
+        .then(() => {
+            messageInput.value = "";  // Clear the input field
+            fetchMessages();  // Refresh the messages list
+        })
+        .catch(error => console.error('Error sending message:', error));
+    }
+
+    // Add event listener to send button
+    document.querySelector(".send-message-btn").addEventListener("click", sendMessage);
+
+    // Add event listener to recipient select to fetch messages when a user is selected
+    recipientSelect.addEventListener("change", fetchMessages);
+
+    // Initially fetch messages if there's already a selected user
+    if (recipientSelect.value) {
+        fetchMessages();
+    }
+});
 
 
 
