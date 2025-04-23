@@ -1,5 +1,5 @@
 const apiUrl = "https://ptpback.onrender.com"; 
-let authToken = "";
+let authToken = localStorage.getItem("authToken");
 
 
 
@@ -193,94 +193,163 @@ function removeListing(index) {
 }
 
 // Messages
-const currentUser = localStorage.getItem("currentUser") || "you";
-const urlParams = new URLSearchParams(window.location.search);
-let currentRecipient = urlParams.get("user") || "";
 
-function sendMessage() {
-    const input = document.getElementById("messageInput");
-    if (!input) return;
 
-    const message = input.value.trim();
-    if (message && currentRecipient) {
-        const chatKey = `chat_${currentRecipient}`;
-        const chats = JSON.parse(localStorage.getItem(chatKey)) || [];
-        chats.push({ sender: currentUser, text: message, time: new Date().toLocaleTimeString() });
-        localStorage.setItem(chatKey, JSON.stringify(chats));
-        input.value = "";
-        loadMessages();
-    }
-}
 
-document.addEventListener("DOMContentLoaded", function () {
-    const messageInput = document.getElementById("messageInput");
-    if (messageInput) {
-        messageInput.addEventListener("keydown", function (event) {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault(); // prevent newline
-                sendMessage();
+
+// Fetch recipient options (users for chat)
+async function loadRecipientOptions() {
+    const response = await fetch(`${apiUrl}/users`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${authToken}`,
+        },
+    });
+    const data = await response.json();
+    const recipientSelect = document.getElementById("recipientSelect");
+
+    // Clear old options
+    recipientSelect.innerHTML = "";
+    
+    // Add a default "Select a user" option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.innerText = "Select a user";
+    recipientSelect.appendChild(defaultOption);
+
+    if (data && data.length) {
+        // Populate the recipient dropdown with users
+        data.forEach(user => {
+            if (user.user_id !== currentUserId) {
+                const option = document.createElement("option");
+                option.value = user.user_id;
+                option.innerText = user.username;
+                recipientSelect.appendChild(option);
             }
         });
+        
+        // Reinitialize Materialize select dropdown
+        M.FormSelect.init(recipientSelect);
+    } else {
+        recipientSelect.innerHTML = "<option>No users available</option>";
     }
+}
+
+
+
+// Load previous messages for selected recipient
+async function loadMessages() {
+    const recipientId = document.getElementById("recipientSelect").value;
+  
+    if (!recipientId) return;
+  
+    const response = await fetch(`${apiUrl}/messages?other_user_id=${recipientId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${authToken}`,
+      },
+    });
+  
+    const messages = await response.json();
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = ""; // Clear previous messages
+  
+    if (messages.length) {
+      messages.forEach(msg => {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        
+        // Add sender's name
+        const senderName = document.createElement("div");
+        senderName.classList.add("sender");
+        senderName.textContent = msg.sender_username;
+        messageDiv.appendChild(senderName);
+        
+        // Add message content
+        const messageContent = document.createElement("p");
+        messageContent.textContent = msg.message;
+        messageDiv.appendChild(messageContent);
+  
+        // Apply sent or received class based on the sender
+        if (msg.sender_user_id === currentUserId) {
+          messageDiv.classList.add("sent");
+        } else {
+          messageDiv.classList.add("received");
+        }
+  
+        chatBox.appendChild(messageDiv);
+      });
+    } else {
+      const noMessagesDiv = document.createElement("div");
+      noMessagesDiv.classList.add("message");
+      noMessagesDiv.innerHTML = "No messages yet.";
+      chatBox.appendChild(noMessagesDiv);
+    }
+  
+    // Scroll to the bottom of the chat
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+  
+
+
+// Send message to the selected recipient
+// Send message function
+async function sendMessage() {
+    const recipientId = document.getElementById("recipientSelect").value;
+    const message = document.getElementById("messageInput").value.trim();
+    
+    if (!recipientId || !message) return;
+    
+    const response = await fetch(`${apiUrl}/messages`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            sender_user_id: currentUserId,
+            receiver_user_id: recipientId,
+            message: message,
+        }),
+    });
+    
+    const data = await response.json();
+    if (response.ok) {
+        console.log("Message sent:", data.sentMessage);  // Debugging response
+        document.getElementById("messageInput").value = ""; // Clear input
+        loadMessages(); // Reload messages
+    } else {
+        alert("Error sending message");
+        console.error("Error response:", data);
+    }
+}
+
+// Set current user information and load recipient options
+document.addEventListener("DOMContentLoaded", async () => {
+    const userResponse = await fetch(`${apiUrl}/profile`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${authToken}`,
+        },
+    });
+    const userData = await userResponse.json();
+    currentUserId = userData.user_id;
+    
+    // Load recipient options (users) and messages
+    loadRecipientOptions();
+    
+    // Add event listener for recipient select change
+    document.getElementById("recipientSelect").addEventListener("change", loadMessages);
+    
+    // Add event listener for Enter key to send message
+    document.getElementById("messageInput").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();  // Prevent default Enter behavior (form submit)
+            sendMessage();
+        }
+    });
 });
 
-
-function loadMessages() {
-    const chatBox = document.getElementById("chatBox");
-    if (!chatBox || !currentRecipient) return;
-
-    const chatKey = `chat_${currentRecipient}`;
-    const chats = JSON.parse(localStorage.getItem(chatKey)) || [];
-
-    chatBox.innerHTML = "";
-    chats.forEach(msg => {
-        const msgDiv = document.createElement("div");
-        msgDiv.className = msg.sender === currentUser ? "right-align blue-text" : "left-align green-text";
-        msgDiv.innerHTML = `<strong>${msg.sender}:</strong> ${msg.text} <small class="grey-text">(${msg.time})</small>`;
-        chatBox.appendChild(msgDiv);
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-async function loadRecipientOptions() {
-    const select = document.getElementById("recipientSelect");
-    if (!select || !localStorage.getItem("authToken")) return;
-
-    const response = await fetch(`${apiUrl}/users`, {
-        headers: {
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
-        }
-    });
-
-    if (!response.ok) return;
-
-    const users = await response.json();
-    select.innerHTML = `<option value="" disabled selected>Select a user</option>`;
-
-    users.forEach(user => {
-        if (user.username !== currentUser) {
-            const opt = document.createElement("option");
-            opt.value = user.username;
-            opt.textContent = user.username;
-            select.appendChild(opt);
-        }
-    });
-
-    M.FormSelect.init(select);
-
-    select.addEventListener("change", function () {
-        currentRecipient = this.value;
-        loadMessages();
-    });
-
-    // Preselect from URL
-    if (currentRecipient) {
-        select.value = currentRecipient;
-        M.FormSelect.init(select);
-        loadMessages();
-    }
-}
 
 
 
