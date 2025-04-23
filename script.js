@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     currentUserId = userData.user_id;
     
     // Load recipient options (users) and messages
-    loadRecipientOptions();
+   
     
     // Add event listener for recipient select change
     document.getElementById("recipientSelect").addEventListener("change", loadMessages);
