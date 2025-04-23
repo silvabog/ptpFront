@@ -601,3 +601,30 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
 if (window.location.pathname.includes("mybooks.html")) {
     loadMyBooks();
 }
+
+
+/************************
+ My profile
+ ************************/
+
+ document.addEventListener("DOMContentLoaded", function() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (!isLoggedIn) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Retrieve user details from localStorage
+    const currentUser = localStorage.getItem("currentUser");
+    const user_id = localStorage.getItem("user_id");
+    const firstName = localStorage.getItem("first_name");
+    const lastName = localStorage.getItem("last_name");
+    const email = localStorage.getItem("email");
+
+    // Display user details
+    document.getElementById("firstName").textContent = firstName;
+    document.getElementById("lastName").textContent = lastName;
+    document.getElementById("email").textContent = email;
+    document.getElementById("username").textContent = currentUser;
+});
