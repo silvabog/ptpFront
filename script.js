@@ -230,38 +230,56 @@ async function loadRecipientOptions() {
 // Load previous messages for selected recipient
 async function loadMessages() {
     const recipientId = document.getElementById("recipientSelect").value;
-
+  
     if (!recipientId) return;
-
+  
     const response = await fetch(`${apiUrl}/messages?other_user_id=${recipientId}`, {
-        method: "GET",
-        headers: {
-            "Authorization": `Bearer ${authToken}`,
-        },
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${authToken}`,
+      },
     });
-
+  
     const messages = await response.json();
     const chatBox = document.getElementById("chatBox");
     chatBox.innerHTML = ""; // Clear previous messages
-
+  
     if (messages.length) {
-        messages.forEach(msg => {
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message");
-            messageDiv.innerHTML = `<strong>${msg.sender_username}:</strong> ${msg.message}`;  // Display sender's username
-            chatBox.appendChild(messageDiv);
-        });
+      messages.forEach(msg => {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        
+        // Add sender's name
+        const senderName = document.createElement("div");
+        senderName.classList.add("sender");
+        senderName.textContent = msg.sender_username;
+        messageDiv.appendChild(senderName);
+        
+        // Add message content
+        const messageContent = document.createElement("p");
+        messageContent.textContent = msg.message;
+        messageDiv.appendChild(messageContent);
+  
+        // Apply sent or received class based on the sender
+        if (msg.sender_user_id === currentUserId) {
+          messageDiv.classList.add("sent");
+        } else {
+          messageDiv.classList.add("received");
+        }
+  
+        chatBox.appendChild(messageDiv);
+      });
     } else {
-        const noMessagesDiv = document.createElement("div");
-        noMessagesDiv.classList.add("message");
-        noMessagesDiv.innerHTML = "No messages yet.";
-        chatBox.appendChild(noMessagesDiv);
+      const noMessagesDiv = document.createElement("div");
+      noMessagesDiv.classList.add("message");
+      noMessagesDiv.innerHTML = "No messages yet.";
+      chatBox.appendChild(noMessagesDiv);
     }
-
+  
     // Scroll to the bottom of the chat
     chatBox.scrollTop = chatBox.scrollHeight;
-}
-
+  }
+  
 
 
 // Send message to the selected recipient
