@@ -208,8 +208,15 @@ async function loadRecipientOptions() {
     const data = await response.json();
     const recipientSelect = document.getElementById("recipientSelect");
 
-    recipientSelect.innerHTML = ""; // Clear old options to prevent duplicates
+    // Clear old options
+    recipientSelect.innerHTML = "";
     
+    // Add a default "Select a user" option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.innerText = "Select a user";
+    recipientSelect.appendChild(defaultOption);
+
     if (data && data.length) {
         // Populate the recipient dropdown with users
         data.forEach(user => {
