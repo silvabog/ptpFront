@@ -1,5 +1,6 @@
 const apiUrl = "https://ptpback.onrender.com"; 
-let authToken = "";
+
+let authToken = localStorage.getItem("authToken");
 
 
 
