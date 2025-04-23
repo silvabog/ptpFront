@@ -1,6 +1,6 @@
 const apiUrl = "https://ptpback.onrender.com"; 
 let authToken = "";
-
+let currentUserId = ""; // <-- Add this
 
 
 
