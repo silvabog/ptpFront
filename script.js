@@ -229,30 +229,38 @@ async function loadRecipientOptions() {
 // Load previous messages for selected recipient
 async function loadMessages() {
     const recipientId = document.getElementById("recipientSelect").value;
-    
+
     if (!recipientId) return;
-    
-    const response = await fetch(`${apiUrl}/messages?sender_user_id=${currentUserId}&receiver_user_id=${recipientId}`, {
+
+    const response = await fetch(`${apiUrl}/messages?other_user_id=${recipientId}`, {  // Changed to `other_user_id`
         method: "GET",
         headers: {
             "Authorization": `Bearer ${authToken}`,
         },
     });
-    
+
     const messages = await response.json();
     const chatBox = document.getElementById("chatBox");
     chatBox.innerHTML = ""; // Clear previous messages
-    
-    messages.forEach(msg => {
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message");
-        messageDiv.innerHTML = `<strong>${msg.sender_username}:</strong> ${msg.message}`;
-        chatBox.appendChild(messageDiv);
-    });
-    
+
+    if (messages.length) {
+        messages.forEach(msg => {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.innerHTML = `<strong>${msg.sender_username}:</strong> ${msg.message}`;
+            chatBox.appendChild(messageDiv);
+        });
+    } else {
+        const noMessagesDiv = document.createElement("div");
+        noMessagesDiv.classList.add("message");
+        noMessagesDiv.innerHTML = "No messages yet.";
+        chatBox.appendChild(noMessagesDiv);
+    }
+
     // Scroll to the bottom of the chat
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 
 // Send message to the selected recipient
 async function sendMessage() {
