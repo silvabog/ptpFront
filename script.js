@@ -524,8 +524,10 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
                 },
                 body: JSON.stringify(newBook)
             });
-
+            
             const data = await response.json();
+            console.log(data); // Add this to inspect the response
+            
             if (data.message === "Book added successfully!") {
                 feedback.textContent = "📘 Thank you! Redirecting to your listings...";
                 feedback.style.color = "red";
