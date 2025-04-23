@@ -1,7 +1,5 @@
 const apiUrl = "https://ptpback.onrender.com"; 
-let authToken = "";
-let currentUserId = ""; // <-- Add this
-
+let authToken = localStorage.getItem("authToken");
 
 
 
@@ -195,6 +193,10 @@ function removeListing(index) {
 }
 
 // Messages
+// Ensure you're logged in and have a valid token
+
+let currentUserId = null;
+
 
 // Fetch recipient options (users for chat)
 async function loadRecipientOptions() {
