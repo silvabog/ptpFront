@@ -21,6 +21,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (event) =
         localStorage.setItem("authToken", authToken);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("currentUser", data.username || email); // store username or email
+        localStorage.setItem("user_id", data.user_id); 
         document.getElementById("loginMessage").innerText = "Login Successful!";
 
         setTimeout(() => {
@@ -292,7 +293,6 @@ async function loadMessages() {
   
 
 
-// Send message to the selected recipient
 // Send message function
 async function sendMessage() {
     const recipientId = document.getElementById("recipientSelect").value;
@@ -494,7 +494,7 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     }
 
     if (title && author && subject && condition) {
-        const newBook = { title, author, description, condition, subject };
+        const newBook = { title, author, description, condition, subject, user_id};
 
         try {
             const response = await fetch(`${apiUrl}/books`, {
