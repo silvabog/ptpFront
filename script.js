@@ -374,30 +374,13 @@ async function displayBooks() {
                 <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
                 <h4>${book.title}</h4>
                 <p>by ${book.author}</p>
-                <button class="textOwner" data-owner-id="${book.owner_user_id}">Text Owner</button>
             `;
             bookList.appendChild(bookCard);
         });
-
-        // Add event listener for "Text Owner" button
-        const textOwnerButtons = document.querySelectorAll(".textOwner");
-        textOwnerButtons.forEach(button => {
-            button.addEventListener("click", (event) => {
-                const ownerId = event.target.getAttribute("data-owner-id");
-                startChatWithOwner(ownerId);
-            });
-        });
-
     } catch (error) {
         console.error("Error fetching books:", error);
     }
 }
-
-function startChatWithOwner(ownerId) {
-    // Redirect to the chat page with the owner's user ID
-    window.location.href = `messages.html?ownerId=${ownerId}`;
-}
-
 
 // display all books with pagination
 const booksPerPage = 12;
@@ -435,7 +418,6 @@ async function displayAllBooks() {
                 <p>by ${book.author}</p>
                 <p><strong>Condition:</strong> ${book.condition}</p>
                 <p><strong>Subject:</strong> ${book.subject}</p>
-                <button class="textOwner" data-owner-id="${book.owner_user_id}">Text Owner</button>
             `;
             bookList.appendChild(bookCard);
         });
@@ -493,7 +475,6 @@ async function displayAllBooks() {
     }
 }
 
-
 //Adding books
 document.getElementById("addBookForm")?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -524,10 +505,8 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
                 },
                 body: JSON.stringify(newBook)
             });
-            
+
             const data = await response.json();
-            console.log(data); // Add this to inspect the response
-            
             if (data.message === "Book added successfully!") {
                 feedback.textContent = "📘 Thank you! Redirecting to your listings...";
                 feedback.style.color = "red";
