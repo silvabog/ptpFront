@@ -193,12 +193,6 @@ function removeListing(index) {
 }
 
 // Messages
-// Ensure you're logged in and have a valid token
-let currentUserId = null;
-
-if (!authToken) {
-    window.location.href = "login.html";
-}
 
 // Fetch recipient options (users for chat)
 async function loadRecipientOptions() {
