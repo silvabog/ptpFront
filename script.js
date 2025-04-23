@@ -1,6 +1,6 @@
 const apiUrl = "https://ptpback.onrender.com"; 
 let authToken = "";
-let currentUserId = ""; // <-- Add this
+let currentUserId = null;
 
 
 
@@ -210,12 +210,12 @@ async function loadRecipientOptions() {
     if (data && data.length) {
         // Populate the recipient dropdown with users
         data.forEach(user => {
-           // if (user.user_id !== currentUserId) {
+            if (user.user_id !== currentUserId) {
                 const option = document.createElement("option");
                 option.value = user.user_id;
                 option.innerText = user.username;
                 recipientSelect.appendChild(option);
-          //  }
+            }
         });
         
         // Reinitialize Materialize select dropdown
