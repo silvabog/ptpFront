@@ -208,9 +208,9 @@ async function sendMessage() {
     const message = input.value.trim();
     if (message && currentRecipient) {
         const chatData = {
-            sender: currentUser,
-            recipient: currentRecipient,
-            text: message,
+            sender_id: currentUser,
+            receiver_id: currentRecipient,
+            content: message,
             time: new Date().toLocaleTimeString()
         };
 
