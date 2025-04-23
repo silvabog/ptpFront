@@ -441,29 +441,24 @@ ul.dropdown-content {
     flex-direction: column;
   }
   
-  /* Sender's message */
+  /* Sender's message (right side) */
   .message.sent {
     align-self: flex-end;
     background-color: rgb(14, 45, 79);
     color: white;
   }
   
-  .message.sent .sender {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 5px;
-  }
-  
-  /* Receiver's message */
+  /* Receiver's message (left side) */
   .message.received {
     align-self: flex-start;
     background-color: #f0f0f0;
     color: #222;
   }
   
-  .message.received .sender {
+  /* Sender's name (on the top of the message bubble) */
+  .message .sender {
     font-size: 12px;
-    color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     margin-bottom: 5px;
   }
   
