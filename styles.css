@@ -433,7 +433,7 @@ ul.dropdown-content {
     width: fit-content;
     min-width: 150px;
     max-width: 60%;
-    padding: 6px 12px; /* reduced padding for smaller height */
+    padding: 2px 8px; /* reduced padding for smaller height */
     border-radius: 20px;
     font-size: 14px;
     word-wrap: break-word;
