@@ -433,18 +433,18 @@ ul.dropdown-content {
     width: fit-content;
     min-width: 120px;
     max-width: 60%;
-    padding: 3px 8px;         /* tighter padding: vertical 3px, horizontal 8px */
+    padding: 4px 10px; /* slightly reduced padding */
     border-radius: 14px;
-    font-size: 13px;
+    font-size: 15px; /* larger font size */
     word-wrap: break-word;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     margin-bottom: 4px;
-    line-height: 1.1;
+    line-height: 1.2; /* tighter vertical spacing */
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
-  
-  
+   
   
   
   /* Sender's message (right side) */
