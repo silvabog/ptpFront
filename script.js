@@ -209,7 +209,6 @@ let pollMessagesInterval = null;
 // Start polling for new messages
 function startPollingMessages() {
     if (pollMessagesInterval) return; // Avoid starting multiple intervals
-    console.log("Polling started"); // ✅ Log when polling starts
 
     pollMessagesInterval = setInterval(loadMessages, POLL_INTERVAL);
 }
@@ -219,16 +218,9 @@ function stopPollingMessages() {
     if (pollMessagesInterval) {
         clearInterval(pollMessagesInterval);
         pollMessagesInterval = null;
-        console.log("Polling stopped"); // ✅ Log when polling stops
     }
 }
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        stopPollingMessages();  // Stop polling when tab is inactive
-    } else {
-        startPollingMessages(); // Resume polling when tab becomes active
-    }
-});
+
 
 
 // Fetch recipient options (users for chat)
