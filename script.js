@@ -198,9 +198,28 @@ function removeListing(index) {
     loadListings();
 }
 
-// Messages
+//MESSAGESSSSSSSSSSSSSSSSS
 
+// Polling interval in milliseconds (e.g., reload messages every 5 seconds)
+const POLL_INTERVAL = 5000; // 5 seconds
 
+// This will hold the polling reference so we can stop it later if needed
+let pollMessagesInterval = null;
+
+// Start polling for new messages
+function startPollingMessages() {
+    if (pollMessagesInterval) return; // Avoid starting multiple intervals
+
+    pollMessagesInterval = setInterval(loadMessages, POLL_INTERVAL);
+}
+
+// Stop polling (e.g., if the user switches to a different recipient)
+function stopPollingMessages() {
+    if (pollMessagesInterval) {
+        clearInterval(pollMessagesInterval);
+        pollMessagesInterval = null;
+    }
+}
 
 
 // Fetch recipient options (users for chat)
@@ -294,8 +313,8 @@ async function loadMessages() {
   
     // Scroll to the bottom of the chat
     chatBox.scrollTop = chatBox.scrollHeight;
-  }
-  
+}
+
 
 
 // Send message function
@@ -322,7 +341,8 @@ async function sendMessage() {
     if (response.ok) {
         console.log("Message sent:", data.sentMessage);  // Debugging response
         document.getElementById("messageInput").value = ""; // Clear input
-        loadMessages(); // Reload messages
+        loadMessages(); // Reload messages right after sending
+        startPollingMessages(); // Start polling for new messages
     } else {
         alert("Error sending message");
         console.error("Error response:", data);
@@ -353,6 +373,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             sendMessage();
         }
     });
+});
+
+// Add event listener for recipient select change
+document.getElementById("recipientSelect").addEventListener("change", () => {
+    stopPollingMessages();  // Stop previous polling
+    loadMessages();  // Load messages for the new recipient
+    startPollingMessages();  // Start polling for the new recipient
 });
 
 
