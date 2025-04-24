@@ -394,10 +394,9 @@ let allBooks = [];
 
 async function displayAllBooks() {
     const bookList = document.querySelector(".book-list");
-    const searchInput = document.getElementById("searchInput");
     const filterCheckboxes = document.querySelectorAll(".filter-checkbox");
 
-    if (!bookList || !searchInput) return;
+    if (!bookList) return;
 
     try {
         const response = await fetch(`${apiUrl}/books`);
@@ -407,7 +406,6 @@ async function displayAllBooks() {
         console.error("Error fetching all books:", error);
     }
 
-    searchInput.addEventListener("input", applyFilters);
     filterCheckboxes.forEach(cb => cb.addEventListener("change", applyFilters));
 
     function renderBooks(books) {
@@ -456,7 +454,7 @@ async function displayAllBooks() {
     }
 
     function applyFilters() {
-        const query = searchInput.value.toLowerCase();
+        const query = getSearchQuery(); // Get the search query from the URL
 
         const checkedFilters = Array.from(filterCheckboxes)
             .filter(checkbox => checkbox.checked)
@@ -478,7 +476,26 @@ async function displayAllBooks() {
         currentPage = 1; // Reset to first page when filters change
         renderBooks(filtered);
     }
+
+    // Function to get search query from URL
+    function getSearchQuery() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('search') || ''; // Return the search query or an empty string
+    }
+
+    // Apply search query on page load
+    const searchQuery = getSearchQuery();
+    if (searchQuery) {
+        document.getElementById("searchInput").value = searchQuery; // Optionally, populate the search input field with the query
+        applyFilters(); // Trigger filtering with the search query
+    }
 }
+
+// Start the display process when the page is loaded
+document.addEventListener("DOMContentLoaded", function() {
+    displayAllBooks(); // Display books when the page loads
+});
+
 
 //Adding books
 document.getElementById("addBookForm")?.addEventListener("submit", async (event) => {
