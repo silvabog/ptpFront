@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .profile-card {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      border-radius: 12px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .profile-image img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar (Dynamically Loaded) -->
+  <div id="navbar-container"></div>
+
+  <div class="container">
+    <div class="card profile-card">
+      <h5>Edit Profile</h5>
+      
+      <!-- Profile Picture -->
+      <div class="profile-image">
+        <img src="/img/user-default.png" alt="Profile Picture" id="profilePic" class="circle">
+        <input type="file" id="profilePicInput" accept="image/*" />
+      </div>
+      
+      <!-- Profile Form -->
+      <div class="profile-info">
+        <div class="input-field">
+          <input type="text" id="editFirstName" placeholder="First Name" />
+        </div>
+        <div class="input-field">
+          <input type="text" id="editLastName" placeholder="Last Name" />
+        </div>
+        <div class="input-field">
+          <input type="text" id="editUsername" placeholder="Username" />
+        </div>
+        <div class="input-field">
+          <input type="email" id="editEmail" placeholder="Email" />
+        </div>
+        <div class="input-field">
+          <textarea id="editBio" class="materialize-textarea" placeholder="Bio"></textarea>
+        </div>
+      </div>
+      
+      <div class="actions">
+        <button class="btn red" id="saveBtn">Save Changes</button>
+        <a href="profile.html" class="btn grey">Cancel</a>
+      </div>
+    </div>
+  </div>
+  
+  <div id="footer-placeholder"></div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

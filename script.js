@@ -606,45 +606,103 @@ if (window.location.pathname.includes("mybooks.html")) {
 /************************
  My profile
  ************************/
+ 
+ // Load and display profile data on profile.html
  async function loadProfile() {
-    // Remove forced login check
-    if (!authToken) {
-      console.warn("No auth token found, user may not be logged in.");
-    }
-  
-    try {
-      const response = await fetch(`${apiUrl}/profile`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${authToken}`,
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error("Unauthorized");
-      }
-  
-      const data = await response.json();
-  
-      document.getElementById("firstName").textContent = data.first_name || "N/A";
-      document.getElementById("lastName").textContent = data.last_name || "N/A";
-      document.getElementById("username").textContent = data.username || "N/A";
-      document.getElementById("email").textContent = data.email || "N/A";
-    } catch (err) {
-      console.error("Error loading profile:", err);
-      // You can handle this error in the UI, or keep it logged as shown.
-    }
-  }
-  
-  function logout() {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("user_id");
-    window.location.href = "index.html";
-  }
-  
-  document.addEventListener("DOMContentLoaded", function () {
-    loadProfile();
-
-  });
+   if (!authToken) {
+     console.warn("No auth token found, user may not be logged in.");
+   }
+ 
+   try {
+     const response = await fetch(`${apiUrl}/profile`, {
+       method: "GET",
+       headers: {
+         "Authorization": `Bearer ${authToken}`,
+       },
+     });
+ 
+     if (!response.ok) {
+       throw new Error("Unauthorized");
+     }
+ 
+     const data = await response.json();
+ 
+     // On profile.html
+     if (document.getElementById("firstName")) {
+       document.getElementById("firstName").textContent = data.first_name || "N/A";
+       document.getElementById("lastName").textContent = data.last_name || "N/A";
+       document.getElementById("username").textContent = data.username || "N/A";
+       document.getElementById("email").textContent = data.email || "N/A";
+       document.getElementById("bio").textContent = data.bio || "This user has not set a bio yet.";
+     }
+ 
+     // On editProfile.html
+     if (document.getElementById("editFirstName")) {
+       document.getElementById("editFirstName").value = data.first_name || "";
+       document.getElementById("editLastName").value = data.last_name || "";
+       document.getElementById("editUsername").value = data.username || "";
+       document.getElementById("editEmail").value = data.email || "";
+       document.getElementById("editBio").value = data.bio || "";
+       M.updateTextFields(); // Materialize fix to float labels
+     }
+ 
+   } catch (err) {
+     console.error("Error loading profile:", err);
+   }
+ }
+ 
+ // Update profile with new data from editProfile.html
+ async function saveProfileChanges() {
+   const updatedProfile = {
+     first_name: document.getElementById("editFirstName").value,
+     last_name: document.getElementById("editLastName").value,
+     username: document.getElementById("editUsername").value,
+     email: document.getElementById("editEmail").value,
+     bio: document.getElementById("editBio").value,
+   };
+ 
+   try {
+     const response = await fetch(`${apiUrl}/profile`, {
+       method: "PUT",
+       headers: {
+         "Content-Type": "application/json",
+         "Authorization": `Bearer ${authToken}`,
+       },
+       body: JSON.stringify(updatedProfile),
+     });
+ 
+     if (!response.ok) {
+       throw new Error("Failed to update profile");
+     }
+ 
+     // Redirect back to profile page or show success
+     window.location.href = "profile.html";
+   } catch (err) {
+     console.error("Error updating profile:", err);
+     alert("Failed to update profile. Please try again.");
+   }
+ }
+ 
+ // Handle logout
+ function logout() {
+   localStorage.removeItem("authToken");
+   localStorage.removeItem("isLoggedIn");
+   localStorage.removeItem("currentUser");
+   localStorage.removeItem("user_id");
+   window.location.href = "index.html";
+ }
+ 
+ // Initialize on DOM load
+ document.addEventListener("DOMContentLoaded", function () {
+   loadProfile();
+ 
+   // Check if we're on the edit page and wire up the save button
+   const saveBtn = document.getElementById("saveBtn");
+   if (saveBtn) {
+     saveBtn.addEventListener("click", (e) => {
+       e.preventDefault();
+       saveProfileChanges();
+     });
+   }
+ });
+ 

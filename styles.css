@@ -871,6 +871,196 @@ My books page
 }
 
 
+/* ==========================
+   PROFILE PAGE
+   ========================== */
+
+/* General page container */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #f4f7fc;
+  padding: 0 1rem;
+}
+
+/* Profile Card Box */
+.profile-card {
+  max-width: 800px;
+  width: 100%;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Header */
+.profile-header {
+  display: flex;
+  flex-direction: column; /* Change to column to stack the elements */
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-image {
+  margin-bottom: 1rem; /* Add margin below the image */
+}
+
+.profile-image img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 0.5rem;
+  text-align: center; /* Center the username */
+}
+
+.profile-info h5 {
+  font-size: 2rem; /* Adjusted font size */
+  color: #333;
+  margin: 0;
+  text-align: center; /* Center the "User Profile" text */
+}
+
+/* Profile Details Section */
+.profile-details {
+  margin-bottom: 2rem;
+}
+
+.profile-details h6 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.profile-details-item {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.profile-details-item strong {
+  color: #333;
+}
+
+/* Bio Section */
+.bio-section {
+  margin-bottom: 2rem;
+}
+
+.bio-section h6 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.bio-section p {
+  font-size: 1.1rem;
+  color: #777;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.logout-btn, .edit-btn {
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  display: flex; /* Added flex display to center the content */
+  align-items: center; /* Vertically center the text */
+  justify-content: center; /* Horizontally center the text */
+  transition: background-color 0.3s ease-in-out;
+}
+
+.logout-btn {
+  background-color: #ff5252;
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #e63946;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1.5rem;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-image {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .profile-info h5 {
+    font-size: 1.5rem;
+  }
+
+  .profile-info p {
+    font-size: 1rem;
+  }
+
+  .profile-details h6 {
+    font-size: 1.2rem;
+  }
+
+  .profile-details-item {
+    font-size: 1rem;
+  }
+
+  .bio-section h6 {
+    font-size: 1.2rem;
+  }
+
+  .bio-section p {
+    font-size: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .logout-btn, .edit-btn {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
 
 
 /* ==========================

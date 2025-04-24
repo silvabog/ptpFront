@@ -22,20 +22,46 @@
   <div id="navbar-container"></div>
 
 
-
-  <div class="container">
-    <div class="card profile-card center-align">
-      <h5>User Profile</h5>
-      <div id="profileInfo">
-        <p><strong>First Name:</strong> <span id="firstName">Loading...</span></p>
-        <p><strong>Last Name:</strong> <span id="lastName">Loading...</span></p>
-        <p><strong>Username:</strong> <span id="username">Loading...</span></p>
-        <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+  <div class="profile-container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <h5 id="profileName">User Profile</h5>
+        <p></p>
+        <div class="profile-image">
+          <img src="/img/user-default.png" alt="Profile Picture" id="profilePic">
+        </div>
+        <div class="profile-info">
+          <p id="username"><strong>@username</strong></p>
+        </div>
       </div>
-      <br />
-      <a class="btn red" onclick="logout()">Logout</a>
+  
+      <div class="profile-details">
+        <h6>Profile Information</h6>
+        <div class="profile-details-item">
+          <strong>First Name:</strong> <span id="firstName">Loading...</span>
+        </div>
+        <div class="profile-details-item">
+          <strong>Last Name:</strong> <span id="lastName">Loading...</span>
+        </div>
+        <div class="profile-details-item">
+          <strong>Email:</strong> <span id="email">Loading...</span>
+        </div>
+      </div>
+  
+      <div class="bio-section">
+        <h6>Bio</h6>
+        <p id="bio">This user has not set a bio yet.</p>
+      </div>
+  
+      <div class="actions">
+        <button class="logout-btn btn red" onclick="logout()">Logout</button>
+        <button class="edit-btn btn blue" onclick="window.location.href='editProfile.html'">Edit Profile</button>
+      </div>
     </div>
   </div>
+  
+  
+  
 
   <div id="footer-placeholder"></div>
   
