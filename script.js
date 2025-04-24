@@ -491,10 +491,7 @@ async function displayAllBooks() {
     }
 }
 
-// Start the display process when the page is loaded
-document.addEventListener("DOMContentLoaded", function() {
-    displayAllBooks(); // Display books when the page loads
-});
+
 
 
 //Adding books
