@@ -477,20 +477,6 @@ async function displayAllBooks() {
         renderBooks(filtered);
     }
 
-    // Function to get search query from URL
-    function getSearchQuery() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('search') || ''; // Return the search query or an empty string
-    }
-
-    // Apply search query on page load
-    const searchQuery = getSearchQuery();
-    if (searchQuery) {
-        document.getElementById("searchInput").value = searchQuery; // Optionally, populate the search input field with the query
-        applyFilters(); // Trigger filtering with the search query
-    }
-}
-
 
 
 
