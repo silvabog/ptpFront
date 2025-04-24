@@ -34,27 +34,34 @@
       <!-- Profile Picture -->
       <div class="profile-image">
         <img src="/img/user-default.png" alt="Profile Picture" id="profilePic" class="circle">
-        <input type="file" id="profilePicInput" accept="image/*" />
+        
       </div>
       
       <!-- Profile Form -->
-      <div class="profile-info">
-        <div class="input-field">
-          <input type="text" id="editFirstName" placeholder="First Name" />
-        </div>
-        <div class="input-field">
-          <input type="text" id="editLastName" placeholder="Last Name" />
-        </div>
-        <div class="input-field">
-          <input type="text" id="editUsername" placeholder="Username" />
-        </div>
-        <div class="input-field">
-          <input type="email" id="editEmail" placeholder="Email" />
-        </div>
-        <div class="input-field">
-          <textarea id="editBio" class="materialize-textarea" placeholder="Bio"></textarea>
-        </div>
-      </div>
+<!-- Profile Form -->
+<div class="profile-info">
+    <div class="input-field">
+      <label for="editFirstName" class="active">First Name:</label>
+      <input type="text" id="editFirstName" placeholder="First Name" />
+    </div>
+    <div class="input-field">
+      <label for="editLastName" class="active">Last Name:</label>
+      <input type="text" id="editLastName" placeholder="Last Name" />
+    </div>
+    <div class="input-field">
+      <label for="editUsername" class="active">Username:</label>
+      <input type="text" id="editUsername" placeholder="Username" />
+    </div>
+    <div class="input-field">
+      <label for="editEmail" class="active">Email:</label>
+      <input type="email" id="editEmail" placeholder="Email" />
+    </div>
+    <div class="input-field">
+      <label for="editBio" class="active">Bio:</label>
+      <textarea id="editBio" class="materialize-textarea" placeholder="Bio"></textarea>
+    </div>
+  </div>
+  
       
       <div class="actions">
         <button class="btn red" id="saveBtn">Save Changes</button>
