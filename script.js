@@ -395,7 +395,7 @@ async function displayBooks() {
 }
 
 // display all books with pagination
-const booksPerPage = 15;
+const booksPerPage = 12;
 let currentPage = 1;
 let allBooks = [];
 
