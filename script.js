@@ -394,9 +394,10 @@ let allBooks = [];
 
 async function displayAllBooks() {
     const bookList = document.querySelector(".book-list");
+    const searchInput = document.getElementById("searchInput");
     const filterCheckboxes = document.querySelectorAll(".filter-checkbox");
 
-    if (!bookList) return;
+    if (!bookList || !searchInput) return;
 
     try {
         const response = await fetch(`${apiUrl}/books`);
@@ -406,6 +407,7 @@ async function displayAllBooks() {
         console.error("Error fetching all books:", error);
     }
 
+    searchInput.addEventListener("input", applyFilters);
     filterCheckboxes.forEach(cb => cb.addEventListener("change", applyFilters));
 
     function renderBooks(books) {
@@ -454,7 +456,7 @@ async function displayAllBooks() {
     }
 
     function applyFilters() {
-        const query = getSearchQuery(); // Get the search query from the URL
+        const query = searchInput.value.toLowerCase();
 
         const checkedFilters = Array.from(filterCheckboxes)
             .filter(checkbox => checkbox.checked)
@@ -476,7 +478,7 @@ async function displayAllBooks() {
         currentPage = 1; // Reset to first page when filters change
         renderBooks(filtered);
     }
-
+}
 
 
 
