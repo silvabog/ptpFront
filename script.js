@@ -220,6 +220,13 @@ function stopPollingMessages() {
         pollMessagesInterval = null;
     }
 }
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        stopPollingMessages();  // Stop polling when tab is inactive
+    } else {
+        startPollingMessages(); // Resume polling when tab becomes active
+    }
+});
 
 
 // Fetch recipient options (users for chat)
