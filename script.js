@@ -107,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loadListings();
     loadRecipientOptions();
     loadMessages();
-    setupCheckboxFilters();
     M.FormSelect.init(document.querySelectorAll("select"));
 });
 
@@ -350,6 +349,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             sendMessage();
         }
     });
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const ownerId = urlParams.get("ownerId");
+
+    if (ownerId) {
+        const recipientId = ownerId;
+        document.getElementById("recipientSelect").value = recipientId;
+        loadMessages(recipientId);
+    }
 });
 
 
