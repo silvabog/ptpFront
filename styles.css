@@ -130,7 +130,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 160px; /* Adjusted width for better readability */
-  height: auto; /* Allow the height to adjust based on content */
+  height: 300px; /* Allow the height to adjust based on content */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -148,19 +148,22 @@
 .book-card h4 {
   font-size: 1rem; /* Slightly larger font size for the title */
   margin-top: 10px;
-  white-space: normal; /* Allow text to wrap if it's long */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;         /* Allow up to 2 lines */
+  -webkit-box-orient: vertical;
   overflow: hidden; /* Hide overflow */
   text-overflow: ellipsis; /* Show ellipsis when the text is too long */
 }
 
 .book-card p {
-  font-size: 0.8rem; /* Increased the font size for better readability */
+  font-size: 0.8rem;
   color: #666;
-  flex-grow: 1; /* Allow text to grow and fill space */
   margin-top: 4px;
-  line-height: 1.2; /* Improved readability */
-  word-wrap: break-word; /* Ensure long words break and wrap */
-  white-space: normal; /* Allow wrapping of long text */
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines before ellipsis */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 
@@ -827,54 +830,68 @@ My books page
   color: #2c3e50;
 }
 
+/* List Container */
 .mybooks-list-container-unique {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px; /* Slightly tighter gap */
+  gap: 20px; /* Better spacing between cards */
 }
 
+/* Book Cards */
 .mybooks-card-unique {
   background: white;
-  padding: 6px; /* Less padding for a smaller card */
+  padding: 12px;
   border-radius: 8px;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.08);
-  width: 120px; /* Smaller width */
-  height: 200px; /* Smaller height */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 160px;
+  height: 300px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
+/* Book Cover Image */
 .mybooks-card-unique img {
   width: 100%;
-  height: 80px; /* Smaller image */
-  object-fit: contain; /* Prevent cutting */
-  border-radius: 4px;
+  height: 120px;
+  object-fit: contain;
+  border-radius: 5px;
 }
 
+/* Book Title */
 .mybooks-card-unique h4 {
-  font-size: 0.8rem; /* Smaller font */
-  margin-top: 6px;
-  white-space: nowrap;
+  font-size: 1rem;
+  margin-top: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* Author, Subject, etc. */
 .mybooks-card-unique p {
-  font-size: 0.7rem; /* Smaller text */
+  font-size: 0.8rem;
   color: #666;
-  margin-top: 4px;
   flex-grow: 1;
+  margin-top: 4px;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Make text stay on one line */
 }
 
+/* Feedback Message */
 .mybooks-feedback-unique {
   text-align: center;
   margin-top: 2rem;
   color: #c0392b;
   font-weight: bold;
 }
+
 
 
 /* ==========================

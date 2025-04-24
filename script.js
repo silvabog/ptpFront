@@ -379,6 +379,8 @@ async function displayBooks() {
                 <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
                 <h4>${book.title}</h4>
                 <p>by ${book.author}</p>
+                <p>by ${book.condition}</p>
+                <p>by ${book.subject}</p>
             `;
             bookList.appendChild(bookCard);
         });
@@ -388,7 +390,7 @@ async function displayBooks() {
 }
 
 // display all books with pagination
-const booksPerPage = 12;
+const booksPerPage = 15;
 let currentPage = 1;
 let allBooks = [];
 
@@ -448,7 +450,7 @@ async function displayAllBooks() {
 
             btn.addEventListener("click", () => {
                 currentPage = i;
-                displayBooks();
+                renderBooks(allBooks); // Call renderBooks to re-render the page
             });
 
             pagination.appendChild(btn);
@@ -479,6 +481,7 @@ async function displayAllBooks() {
         renderBooks(filtered);
     }
 }
+
 
 
 
