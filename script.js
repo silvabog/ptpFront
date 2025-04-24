@@ -394,6 +394,11 @@ const booksPerPage = 15;
 let currentPage = 1;
 let allBooks = [];
 
+function getSearchParam() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('search') || '';
+  }
+
 async function displayAllBooks() {
     const bookList = document.querySelector(".book-list");
     const searchInput = document.getElementById("searchInput");
@@ -401,10 +406,15 @@ async function displayAllBooks() {
 
     if (!bookList || !searchInput) return;
 
+    const initialQuery = getSearchParam();
+    if (initialQuery) {
+      searchInput.value = initialQuery;
+    }
+
     try {
         const response = await fetch(`${apiUrl}/books`);
         allBooks = await response.json();
-        renderBooks(allBooks);
+        applyFilters();
     } catch (error) {
         console.error("Error fetching all books:", error);
     }

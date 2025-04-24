@@ -8,6 +8,21 @@
 
   <!-- Materialize CSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <style>
+  #indexSearchInput {
+    width: 100%; 
+    max-width: 600px;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  #indexSearchForm {
+    width: 100%;
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+</style>
+  </style>
 </head>
 <body>
 
@@ -69,6 +84,16 @@
 
   <!-- Load Navbar Dynamically (External Script) -->
   <script src="script.js"></script>
+    <script>
+  document.getElementById("indexSearchForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const query = document.getElementById("indexSearchInput").value.trim();
+    if (query) {
+      window.location.href = `browse.html?search=${encodeURIComponent(query)}`;
+    }
+  });
+</script>
+
 
 </body>
 </html>
