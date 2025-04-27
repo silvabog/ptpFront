@@ -130,13 +130,15 @@
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 160px; 
-  height: 300px; 
+  min-height: 300px; /* <-- instead of fixed height */
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; 
   overflow: hidden; 
 }
+
+
 
 .book-card img {
   width: 100%;
@@ -159,7 +161,7 @@
   font-size: 0.8rem;
   color: #666;
   margin-top: 4px;
-  line-height: 1.2;
+  line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2; 
   -webkit-box-orient: vertical;
@@ -1082,6 +1084,58 @@ My books page
     width: 100%;
     margin-bottom: 1rem;
   }
+}
+
+.card-header {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.card-menu {
+  display: none;
+  position: absolute;
+  top: 2rem;
+  right: 0.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: black;
+  text-decoration: none;
+}
+
+.card-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+.show {
+  display: block;
+}
+
+.book-card-menu {
+  display: none;
+  position: absolute;
+  /* Add your styles */
+}
+
+.book-card-menu.show {
+  display: block;
 }
 
 

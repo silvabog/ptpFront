@@ -197,6 +197,41 @@ function removeListing(index) {
     loadListings();
 }
 
+// Toggle menu function
+function toggleMenu(event, index) {
+    event.stopPropagation();
+
+    closeAllMenus();
+
+    const menu = document.getElementById(`menu-${index}`);
+    if (menu) {
+        menu.classList.toggle("show");
+    }
+}
+
+
+// Close all menus
+function closeAllMenus() {
+    const allMenus = document.querySelectorAll(".card-menu");
+    allMenus.forEach(menu => {
+        menu.classList.remove("show");
+    });
+}
+
+
+// Close menus when clicking outside
+document.addEventListener("click", (event) => {
+    const isMenu = event.target.closest(".card-menu");
+    const isDotsButton = event.target.closest(".menu-btn");
+
+    if (!isMenu && !isDotsButton) {
+        closeAllMenus();
+    }
+});
+
+
+
+
 //MESSAGESSSSSSSSSSSSSSSSS
 
 // Fetch recipient options (users for chat)
@@ -336,29 +371,32 @@ document.addEventListener("DOMContentLoaded", async () => {
     const userData = await userResponse.json();
     currentUserId = userData.user_id;
     
-    // Load recipient options (users) and messages
-    loadRecipientOptions();
-    
-    // Add event listener for recipient select change
-    document.getElementById("recipientSelect").addEventListener("change", loadMessages);
-    
-    // Add event listener for Enter key to send message
-    document.getElementById("messageInput").addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();  // Prevent default Enter behavior (form submit)
-            sendMessage();
-        }
-    });
+    await loadRecipientOptions(); // <-- make sure this finishes first
     
     const urlParams = new URLSearchParams(window.location.search);
     const ownerId = urlParams.get("ownerId");
 
     if (ownerId) {
-        const recipientId = ownerId;
-        document.getElementById("recipientSelect").value = recipientId;
-        loadMessages(recipientId);
+        const recipientSelect = document.getElementById("recipientSelect");
+        recipientSelect.value = ownerId;
+
+        // Re-initialize Materialize select after setting the value
+        M.FormSelect.init(recipientSelect);
+
+        // Trigger change event manually so it loads messages
+        loadMessages();
     }
+
+    document.getElementById("recipientSelect").addEventListener("change", loadMessages);
+
+    document.getElementById("messageInput").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
 });
+
 
 
 
@@ -384,8 +422,8 @@ async function displayBooks() {
                 <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
                 <h4>${book.title}</h4>
                 <p>by ${book.author}</p>
-                <p>by ${book.condition}</p>
-                <p>by ${book.subject}</p>
+                <p>Condition: ${book.condition}</p>
+                <p>Subject: ${book.subject}</p>
             `;
             bookList.appendChild(bookCard);
         });
@@ -435,12 +473,20 @@ async function displayAllBooks() {
             const bookCard = document.createElement("div");
             bookCard.classList.add("book-card");
             bookCard.innerHTML = `
-                <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
-                <h4>${book.title}</h4>
-                <p>by ${book.author}</p>
-                <p><strong>Condition:</strong> ${book.condition}</p>
-                <p><strong>Subject:</strong> ${book.subject}</p>
+            <div class="card-header">
+                <button class="menu-btn" onclick="toggleMenu(event, ${index})">⋮</button>
+                <div id="menu-${index}" class="card-menu">
+                    <a href="wishlist.html" onclick="addToWishlist('${book.book_id}')">Add to Wishlist</a>
+                    <a href="messages.html?ownerId=${book.owner_user_id}">Message Owner</a>
+                </div>
+            </div>
+            <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
+            <h4>${book.title}</h4>
+            <p>by ${book.author}</p>
+            <p><strong>Condition:</strong> ${book.condition}</p>
+            <p><strong>Subject:</strong> ${book.subject}</p>
             `;
+            
             bookList.appendChild(bookCard);
         });
 
@@ -725,4 +771,100 @@ if (window.location.pathname.includes("mybooks.html")) {
      });
    }
  });
+
+
+ //*****************WISHLIST****************************//
  
+// Fetch wishlist for the logged-in user and display it
+document.addEventListener('DOMContentLoaded', () => {
+    const userId = localStorage.getItem('user_id');
+    const authToken = localStorage.getItem('authToken'); // Ensure auth token is retrieved
+
+    if (!userId || !authToken) {
+        document.getElementById('wishlist-container').innerHTML = '<p>You need to be logged in to view your wishlist.</p>';
+        return;
+    }
+
+    fetch(`${apiUrl}/wishlist/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${authToken}`  // Include auth token for the request
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        return response.json(); // Parse the response as JSON
+    })
+    .then(wishlistBooks => {
+        const wishlistContainer = document.getElementById('wishlist-container');
+        if (wishlistBooks.length === 0) {
+            wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+        } else {
+            wishlistBooks.forEach(book => {
+                const bookCard = createBookCard(book);
+                wishlistContainer.appendChild(bookCard);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching wishlist:', error);
+        document.getElementById('wishlist-container').innerHTML = `<p>${error.message}</p>`; // Display the error message in the UI
+    });
+});
+
+// Function to create the book card element for the wishlist
+function createBookCard(book) {
+    const card = document.createElement('div');
+    card.classList.add('book-card');
+    const imageSrc = `img/book${book.book_id}.png`;
+    const fallbackSrc = 'img/default-book.png'; // Fallback image
+    card.innerHTML = `
+        <img src="${imageSrc}" onerror="this.src='${fallbackSrc}'" alt="${book.title}">
+        <h4>${book.title}</h4>
+        <p>${book.subject}</p>
+    `;
+    return card;
+}
+
+// Add book to wishlist
+function addToWishlist(bookId) {
+    const userId = localStorage.getItem('user_id');
+    const authToken = localStorage.getItem('authToken'); // Ensure auth token is retrieved
+    let messageContainer = document.getElementById('message-container');
+
+    if (!userId || !authToken) {
+        if (messageContainer) {
+            messageContainer.innerText = 'You must be logged in to add books to your wishlist.';
+        }
+        return;
+    }
+
+    fetch(`${apiUrl}/wishlist`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}` 
+        },
+        body: JSON.stringify({ user_id: userId, book_id: bookId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            if (messageContainer) {
+                messageContainer.innerText = data.error;
+            }
+        } else {
+            if (messageContainer) {
+                messageContainer.innerText = 'Book added to wishlist!';
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (messageContainer) {
+            messageContainer.innerText = 'An error occurred. Please try again.';
+        }
+    });
+}

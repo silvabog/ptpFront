@@ -10,19 +10,20 @@
 <body>
   <!-- Navbar (Dynamically Loaded) -->
   <div id="navbar-container"></div>
+  
 
-  <div class="container">
-    <h3 class="center-align">My Wishlist</h3>
+  <main>
+    <h1>Your Wishlist</h1>
+    
 
-    <ul class="collection" id="wishlist">
-      <!-- Wishlist items will be added dynamically -->
-    </ul>
-
-    <div class="input-field">
-      <input type="text" id="wishlistInput" placeholder="Add a book to your wishlist" />
-      <button class="btn blue" onclick="addToWishlist()">Add</button>
+    <div id="wishlist-container" class="book-list">
+        <!-- Wishlist books will be dynamically added here -->
     </div>
-  </div>
+
+    
+</main>
+<div id="message-container"></div> <!-- For displaying status messages like success or errors -->
+
 
 
         <!-- Footer -->
