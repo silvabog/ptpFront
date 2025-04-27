@@ -486,6 +486,13 @@ async function displayAllBooks() {
             <p><strong>Subject:</strong> ${book.subject}</p>
             `;
             
+            bookCard.addEventListener("click", function () {
+                if (book.owner_user_id === currentUserId) {
+                    alert("This is your own book!");
+                    event.preventDefault();
+                }
+            });
+
             bookList.appendChild(bookCard);
         });
 
