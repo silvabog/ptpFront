@@ -818,7 +818,6 @@ ul.dropdown-content {
 /**************************
 My books page
 ***************************/
-
 .mybooks-wrapper-unique {
   max-width: 1000px;
   margin: 2rem auto;
@@ -847,7 +846,7 @@ My books page
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   width: 160px;
-  height: 300px;
+  height: auto; /* Allow for variable height based on content */
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -868,10 +867,12 @@ My books page
   font-size: 1rem;
   margin-top: 10px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; /* Allow up to two lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
+  word-wrap: break-word; /* Ensure long words break properly */
 }
 
 /* Author, Subject, etc. */
@@ -883,7 +884,7 @@ My books page
   line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Make text stay on one line */
+  white-space: normal; /* Allow multi-line text */
 }
 
 /* Feedback Message */
@@ -893,6 +894,7 @@ My books page
   color: #c0392b;
   font-weight: bold;
 }
+
 
 
 
