@@ -802,8 +802,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wishlistBooks.length === 0) {
             wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
         } else {
-            wishlistBooks.forEach(book => {
-                const bookCard = createBookCard(book);
+            wishlistBooks.forEach((book, index) => {
+                const bookCard = createBookCard(book, index);
                 wishlistContainer.appendChild(bookCard);
             });
         }
@@ -815,13 +815,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to create the book card element for the wishlist
-function createBookCard(book) {
+function createBookCard(book, index) {
     const card = document.createElement('div');
     card.classList.add('book-card');
-    const imageSrc = `img/book${book.book_id}.png`;
-    const fallbackSrc = 'img/default-book.png'; // Fallback image
+    // Use a similar pattern for book images
     card.innerHTML = `
-        <img src="${imageSrc}" onerror="this.src='${fallbackSrc}'" alt="${book.title}">
+        <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
         <h4>${book.title}</h4>
         <p>${book.subject}</p>
     `;
