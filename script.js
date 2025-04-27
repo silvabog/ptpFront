@@ -660,7 +660,16 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
                 <p><strong>Condition:</strong> ${book.condition}</p>
                 <p><strong>Subject:</strong> ${book.subject}</p>
                 ${book.description ? `<p><strong>Description:</strong> ${book.description}</p>` : ""}
+                <button class="delete-btn" data-book-id="${book.book_id}">Delete</button>
             `;
+            
+            // Add the delete button functionality
+            const deleteButton = bookCard.querySelector(".delete-btn");
+            deleteButton.addEventListener("click", async (event) => {
+                event.stopPropagation(); // Prevent click from bubbling
+                await deleteBook(book.book_id, bookCard);
+            });
+
             bookContainer.appendChild(bookCard);
         });
 
@@ -670,9 +679,40 @@ document.getElementById("addBookForm")?.addEventListener("submit", async (event)
     }
 }
 
+// Function to delete a book from the database
+async function deleteBook(bookId, bookCard) {
+    const confirmed = confirm("Are you sure you want to delete this book?");
+    if (!confirmed) return;
+
+    const authToken = localStorage.getItem("authToken");
+
+    try {
+        const response = await fetch(`${apiUrl}/books/${bookId}`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${authToken}`,
+            }
+        });
+
+        if (response.ok) {
+            // Remove the book from the page after successful deletion
+            bookCard.remove();
+            alert("Book deleted successfully!");
+        } else {
+            const errorData = await response.json();
+            alert(`Error deleting the book: ${errorData.message || 'Unknown error'}`);
+        }
+    } catch (error) {
+        console.error("Error deleting book:", error);
+        alert("Error deleting the book. Please try again.");
+    }
+}
+
+
 if (window.location.pathname.includes("mybooks.html")) {
     loadMyBooks();
 }
+
 
 
 /************************
