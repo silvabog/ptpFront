@@ -817,7 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Function to create the book card element for the wishlist
 function createWishlistBookCard(book, index) {
     const card = document.createElement('div');
-    card.classList.add('book-card');
+    card.classList.add('abook-card');
     // Use a similar pattern for book images
     card.innerHTML = `
         <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
