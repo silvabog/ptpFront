@@ -780,45 +780,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const userId = localStorage.getItem('user_id');
     const authToken = localStorage.getItem('authToken'); // Ensure auth token is retrieved
 
-    if (!userId || !authToken) {
-        document.getElementById('wishlist-container').innerHTML = '<p>You need to be logged in to view your wishlist.</p>';
-        return;
-    }
+    // Only fetch wishlist if we're on the wishlist page
+    if (window.location.pathname.includes('wishlist.html')) {
+        if (!userId || !authToken) {
+            document.getElementById('wishlist-container').innerHTML = '<p>You need to be logged in to view your wishlist.</p>';
+            return;
+        }
 
-    fetch(`${apiUrl}/wishlist/${userId}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${authToken}`  // Include auth token for the request
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
-        }
-        return response.json(); // Parse the response as JSON
-    })
-    .then(wishlistBooks => {
-        const wishlistContainer = document.getElementById('wishlist-container');
-        if (wishlistBooks.length === 0) {
-            wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
-        } else {
-            wishlistBooks.forEach((book, index) => {
-                const bookCard = createWishlistBookCard(book, index);
-                wishlistContainer.appendChild(bookCard);
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching wishlist:', error);
-        document.getElementById('wishlist-container').innerHTML = `<p>${error.message}</p>`; // Display the error message in the UI
-    });
+        fetch(`${apiUrl}/wishlist/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${authToken}`  // Include auth token for the request
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            return response.json(); // Parse the response as JSON
+        })
+        .then(wishlistBooks => {
+            const wishlistContainer = document.getElementById('wishlist-container');
+            if (wishlistBooks.length === 0) {
+                wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
+            } else {
+                wishlistBooks.forEach((book, index) => {
+                    const bookCard = createWishlistBookCard(book, index);
+                    wishlistContainer.appendChild(bookCard);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching wishlist:', error);
+            document.getElementById('wishlist-container').innerHTML = `<p>${error.message}</p>`; // Display the error message in the UI
+        });
+    }
 });
 
 // Function to create the book card element for the wishlist
 function createWishlistBookCard(book, index) {
     const card = document.createElement('div');
-    card.classList.add('abook-card');
-    // Use a similar pattern for book images
+    card.classList.add('book-card');
     card.innerHTML = `
         <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
         <h4>${book.title}</h4>
@@ -826,6 +828,7 @@ function createWishlistBookCard(book, index) {
     `;
     return card;
 }
+
 
 // Add book to wishlist
 function addToWishlist(bookId) {
