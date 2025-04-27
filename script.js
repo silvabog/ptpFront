@@ -476,7 +476,6 @@ async function displayAllBooks() {
             <div class="card-header">
                 <button class="menu-btn" onclick="toggleMenu(event, ${index})">⋮</button>
                 <div id="menu-${index}" class="card-menu">
-                    <a href="wishlist.html" onclick="addToWishlist('${book.book_id}')">Add to Wishlist</a>
                     <a href="messages.html?ownerId=${book.owner_user_id}">Message Owner</a>
                 </div>
             </div>
@@ -772,101 +771,3 @@ if (window.location.pathname.includes("mybooks.html")) {
    }
  });
 
-
- //*****************WISHLIST****************************//
- 
-// Fetch wishlist for the logged-in user and display it
-document.addEventListener('DOMContentLoaded', () => {
-    const userId = localStorage.getItem('user_id');
-    const authToken = localStorage.getItem('authToken'); // Ensure auth token is retrieved
-
-    // Only fetch wishlist if we're on the wishlist page
-    if (window.location.pathname.includes('wishlist.html')) {
-        if (!userId || !authToken) {
-            document.getElementById('wishlist-container').innerHTML = '<p>You need to be logged in to view your wishlist.</p>';
-            return;
-        }
-
-        fetch(`${apiUrl}/wishlist/${userId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${authToken}`  // Include auth token for the request
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status} - ${response.statusText}`);
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(wishlistBooks => {
-            const wishlistContainer = document.getElementById('wishlist-container');
-            if (wishlistBooks.length === 0) {
-                wishlistContainer.innerHTML = '<p>Your wishlist is empty.</p>';
-            } else {
-                wishlistBooks.forEach((book, index) => {
-                    const bookCard = createWishlistBookCard(book, index);
-                    wishlistContainer.appendChild(bookCard);
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching wishlist:', error);
-            document.getElementById('wishlist-container').innerHTML = `<p>${error.message}</p>`; // Display the error message in the UI
-        });
-    }
-});
-
-// Function to create the book card element for the wishlist
-function createWishlistBookCard(book, index) {
-    const card = document.createElement('div');
-    card.classList.add('book-card');
-    card.innerHTML = `
-        <img src="img/book${(index % 3) + 1}.png" alt="${book.title}">
-        <h4>${book.title}</h4>
-        <p>${book.subject}</p>
-    `;
-    return card;
-}
-
-
-// Add book to wishlist
-function addToWishlist(bookId) {
-    const userId = localStorage.getItem('user_id');
-    const authToken = localStorage.getItem('authToken'); // Ensure auth token is retrieved
-    let messageContainer = document.getElementById('message-container');
-
-    if (!userId || !authToken) {
-        if (messageContainer) {
-            messageContainer.innerText = 'You must be logged in to add books to your wishlist.';
-        }
-        return;
-    }
-
-    fetch(`${apiUrl}/wishlist`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}` 
-        },
-        body: JSON.stringify({ user_id: userId, book_id: bookId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            if (messageContainer) {
-                messageContainer.innerText = data.error;
-            }
-        } else {
-            if (messageContainer) {
-                messageContainer.innerText = 'Book added to wishlist!';
-            }
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        if (messageContainer) {
-            messageContainer.innerText = 'An error occurred. Please try again.';
-        }
-    });
-}
